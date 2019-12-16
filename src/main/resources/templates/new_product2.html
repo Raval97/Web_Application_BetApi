@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Create New Match Bet</title>
+
+    <link rel="stylesheet" href="../static/helloStyle.css" th:href="@{/helloStyle.css}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
+</head>
+<body>
+<div align="center">
+    <h1>Create New match bet</h1>
+    <br />
+    <form action="#" th:action="@{/save}" th:object="${matchBet}"
+          method="post">
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Team 1 Name:</td>
+                <td><input type="text" th:field="*{team1}" /></td>
+            </tr>
+            <tr>
+                <td>Team 2 Name:</td>
+                <td><input type="text" th:field="*{team2}" /></td>
+            </tr>
+            <tr>
+                <td>Type 1:</td>
+                <td><input type="text" th:field="*{type_1}" /></td>
+            </tr>
+            <tr>
+                <td>Type X:</td>
+                <td><input type="text" th:field="*{type_X}" /></td>
+            </tr>
+            <tr>
+                <td>Type 2:</td>
+                <td><input type="text" th:field="*{type_2}" /></td>
+            </tr>
+            <tr>
+                <td>Type 1X:</td>
+                <td><input type="text" th:field="*{type_1X}" /></td>
+            </tr>
+            <tr>
+                <td>Type 2X:</td>
+                <td><input type="text" th:field="*{type_2X}" /></td>
+            </tr>
+            <tr>
+                <td>Type 12:</td>
+                <td><input type="text" th:field="*{type_12}" /></td>
+            </tr>
+            <tr>
+                <td>Date :</td>
+                <td><input type="text" th:field="*{date}" /></td>
+            </tr>
+            <tr>
+                <td>Time</td>
+                <td><input type="text" th:field="*{time}" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit">Save</button> </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

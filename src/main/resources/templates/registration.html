@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="@{/add-user}" th:object="${newUser}" method="post">
+    <p>Nick: <input type="text" th:field="*{username}"></p>
+    <p>Password: <input type="text" th:field="*{password}"></p>
+    <p>Role: <input type="text" th:field="*{role}"></p>
+    <p><input type="submit" value="register"></p>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+body
+{
+    margin: 0;
+    background-color: #2F3336;
+    color: #efefef;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 17px;
+}
+
+a:visited
+{
+    color: royalblue;
+    text-decoration: none;
+}
+
+a:hover
+{
+    color: green;
+    text-decoration: none;
+}

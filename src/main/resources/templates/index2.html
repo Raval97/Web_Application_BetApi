@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Admin Manager</title>
+
+    <link rel="stylesheet" href="../static/helloStyle.css" th:href="@{/helloStyle.css}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
+</head>
+<body>
+<div align="center">
+    <h1>Bets List</h1>
+    <a href="/new">Create New match bet</a>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Bet ID</th>
+            <th>Team 1</th>
+            <th>Team 2</th>
+            <th>1</th>
+            <th>X</th>
+            <th>2</th>
+            <th>1X</th>
+            <th>2X</th>
+            <th>12</th>
+            <th>date</th>
+            <th>time</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="match : ${listMatches}">
+            <td th:text="${match.id}">BET ID</td>
+            <td th:text="${match.team1}">Team 1</td>
+            <td th:text="${match.team2}">Team 2</td>
+            <td th:text="${match.type_1}">1</td>
+            <td th:text="${match.type_X}">X</td>
+            <td th:text="${match.type_2}">2</td>
+            <td th:text="${match.type_1X}">1X</td>
+            <td th:text="${match.type_2X}">2X</td>
+            <td th:text="${match.type_12}">12</td>
+            <td th:text="${match.date}">date</td>
+            <td th:text="${match.time}">time</td>
+            <td>
+                <a th:href="@{'/edit/' + ${match.id}}">Edit</a>
+                &nbsp;&nbsp;&nbsp;
+                <a th:href="@{'/delete/' + ${match.id}}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
