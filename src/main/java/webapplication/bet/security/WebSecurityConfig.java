@@ -49,6 +49,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        appUserRepo.save(appUserUser);
 //        appUserRepo.save(appUserAdmin);
 //    }
-    // grvt
+    // grvts
 }
 
