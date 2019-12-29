@@ -1,87 +1,60 @@
 package webapplication.bet.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import javax.persistence.*;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+@Data
+@EqualsAndHashCode(exclude = "couponCourse")
 
 @Entity
 @Table(name="courses")
 public class Courses {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //@ManyToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "id_match", referencedColumnName = Match.ID, foreignKey = @ForeignKey(name="id_match"))
-    //private Match match;
-//    @OneToMany(mappedBy = "courses")
-//    private List<Match> match;
-    @Column(name = "id_match")
-    private Long idMatch;
-//    @Enumerated(EnumType.STRING)
-//    private Type type;
+    @ManyToOne
+    @JoinColumn
+    private Match match;
     private String type;
     private float value;
+    private boolean state;
+    @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL)
+    private Set<CouponCourse> couponCourses;
+
+    public Courses(String type, float value, boolean state, CouponCourse... couponCourses) {
+        this.type = type;
+        this.value = value;
+        this.state = state;
+        this.couponCourses = Stream.of(couponCourses).collect(Collectors.toSet());
+        this.couponCourses.forEach(x -> x.setCourses(this));
+    }
 
     public Courses() {
     }
 
-    private enum Type {
-        T1, T2, TX, T1X, T2X, T12;
-    };
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-//    public List<Match> getMatch() {
-//        return match;
-//    }
+//    private enum Type implements Description{
+//        T1 ("1"),
+//        T2 ("2"),
+//        TX ("X"),
+//        T1X ("1X"),
+//        T2X ("2X"),
+//        T12 ("12");
 //
-//    public void setMatch(List<Match> match) {
-//        this.match = match;
-//    }
-
-//    public Match getMatch() {
-//        return match;
-//    }
+//        private String description;
 //
-//    public void setMatch(Match match) {
-//        this.match = match;
-//    }
-
-    public Long getIdMatch() {
-        return idMatch;
-    }
-
-    public void setIdMatch(Long idMatch) {
-        this.idMatch = idMatch;
-    }
-
-//    public Type getType() {
-//        return type;
-//    }
+//        Type(String description) {
+//            this.description = description;
+//        }
 //
-//    public void setType(Type type) {
-//        this.type = type;
-//    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public float getValue() {
-        return value;
-    }
-
-    public void setValue(float value) {
-        this.value = value;
-    }
+//        @Override
+//        public String getHumanReadableDescription(){
+//            return description;
+//        }
+//    };
 
 }
