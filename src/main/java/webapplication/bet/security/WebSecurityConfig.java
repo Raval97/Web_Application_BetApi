@@ -45,12 +45,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void get() {
-        AppUser appUserUser = new AppUser("User1", passwordEncoder().encode("User1"), "ROLE_USER");
-        AppUser appUserAdmin = new AppUser("Admin", passwordEncoder().encode("Admin"), "ROLE_ADMIN");
-        appUserRepo.save(appUserUser);
-        appUserRepo.save(appUserAdmin);
-    }
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void get() {
+//        AppUser appUserUser = new AppUser("User1", passwordEncoder().encode("User1"), "ROLE_USER");
+//        AppUser appUserAdmin = new AppUser("Admin", passwordEncoder().encode("Admin"), "ROLE_ADMIN");
+//        appUserRepo.save(appUserUser);
+//        appUserRepo.save(appUserAdmin);
+//    }
 }
 

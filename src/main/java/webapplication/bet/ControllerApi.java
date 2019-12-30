@@ -37,17 +37,28 @@ public class ControllerApi {
     public ControllerApi() {
     }
 
-    @RequestMapping("/")
-    public String viewHomePage(Model model) {
+    @RequestMapping("/admin")
+    public String viewHomePageAdmin(Model model) {
         List<Match> listMatch = matchService.listAll();
         List<Courses> listCourses = coursesService.listAll();
         model.addAttribute("listMatch", listMatch);
         model.addAttribute("listCourses", listCourses);
-        return "start";
+        return "startAdmin";
+    }
+
+    @RequestMapping("/user")
+    public String viewHomePageUser(Model model) {
+        List<Match> listMatch = matchService.listAll();
+        List<Courses> listCourses = coursesService.listAll();
+        List<CouponCourse> listCouponCourse = couponCourseService.listAll();
+        model.addAttribute("listMatch", listMatch);
+        model.addAttribute("listCourses", listCourses);
+        model.addAttribute("listCouponCourse", listCouponCourse);
+        return "startUser";
     }
 
     @RequestMapping("/new")
-    public String showNewProductPage(Model model) {
+    public String showNewMatchPage(Model model) {
         Match match = new Match();
         Course course = new Course();
         model.addAttribute("match", match);
@@ -90,11 +101,17 @@ public class ControllerApi {
 //                        new Courses("1X", course1X.getValue()),
 //                        new Courses("2X", course2X.getValue()),
 //                        new Courses("12", course12.getValue())));
-        return "redirect:/";
+        return "redirect:/user";
+    }
+
+    @RequestMapping("/add/{id}")
+    public String addBetToCoupon(@PathVariable(name = "id") int id) {
+//        couponService.save(new Coupon());
+        return "redirect:/user";
     }
 
     @RequestMapping("/edit/{id}")
-    public ModelAndView showEditProductPage(@PathVariable(name = "id") int id) {
+    public ModelAndView showEditMatchPage(@PathVariable(name = "id") int id) {
         ModelAndView mav = new ModelAndView("edit_match_courses");
         Match match = matchService.get(id);
         Courses courses1 = coursesService.get((((id)-1)*6)+2);
@@ -114,9 +131,9 @@ public class ControllerApi {
     }
 
     @RequestMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable(name = "id") int id) {
+    public String deleteMatch(@PathVariable(name = "id") int id) {
         matchService.delete(id);
-        return "redirect:/";
+        return "redirect:/user";
     }
 
     @GetMapping("/hello")

@@ -1,6 +1,5 @@
 body
 {
-    margin: 0;
     background-color: #2F3336;
     color: #efefef;
     font-family: 'Open Sans', sans-serif;
@@ -17,4 +16,46 @@ a:hover
 {
     color: green;
     text-decoration: none;
+}
+
+#container
+{
+    width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#leagues
+{
+    margin-top: 0px;
+    float: left;
+    font-family: 'Josefin Sans', sans-serif;
+    width: 200px;
+    font-size: 20px;
+    text-align: left;
+}
+
+#matchAndCourses
+{
+    margin-right: 50px;
+    margin-left: 100px;
+    float: left;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 20px;
+    width: 800px;
+    text-align: left;
+}
+
+
+{
+
+}
+#bet
+{
+    margin-top: 0px;
+    float: left;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 20px;
+    width: 350px;
+    text-align: center;
 }
