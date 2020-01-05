@@ -1,11 +1,14 @@
 package webapplication.bet.service;
 
+import org.springframework.data.repository.query.Param;
 import webapplication.bet.model.Match;
 import webapplication.bet.repo.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -30,4 +33,27 @@ public class MatchService {
     public void delete(long id) {
         repo.deleteById(id);
     }
+
+
+    public List<Match> listAllByLeague(String league){
+        return  repo.findByLeague(league);
+    }
+
+    public List<Match> listAllByCouponId(Long id){
+        return repo.findAllByCouponId(id);
+    }
+
+    public List<String> listAllMatchNamed(Long idUser, Long couponId){
+        return repo.findAllMatchNamed(idUser, couponId);
+    }
+
+    public Long getIdByCourseId(Long id){
+        return repo.findIdByCourses_Id(id);
+    }
+
+    public void updateMatch(Long id,  String league, String score, String team1,
+                            String team2, LocalDate date, LocalTime time){
+        repo.updateMatch(id, league, score, team1, team2, date, time);
+    }
+
 }

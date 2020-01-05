@@ -13,7 +13,7 @@
 <div align="center">
     <h1>Edit match bet</h1>
     <br />
-    <form action="#" th:action="@{/save}" method="post">
+    <form action="#" th:action="@{'/edit'}" method="post">
         <table border="0" cellpadding="10">
             <tr th:object="${match}">
                 <td>Match ID:</td>
@@ -60,92 +60,66 @@
                 <td>Time</td>
                 <td><input type="text" th:field="*{time}" /></td>
             </tr>
-            <tr th:object="${course1}">
+            <tr th:object="${course}">
                 <td>Type 1:</td>
-                <td><input type="text" th:field="*{value}" /></td>
+                <td><input type="text" th:field="*{c1}" /></td>
             </tr>
-            <tr th:object="${courseX}" >
+            <tr th:object="${course}" >
                 <td>Type X:</td>
-                <td><input type="text" th:field="*{value}" /></td>>
+                <td><input type="text" th:field="*{CX}" /></td>>
             </tr>
-            <tr th:object="${course2}">
+            <tr th:object="${course}">
                 <td>Type 2:</td>
-                <td><input type="text" th:field="*{value}" /></td>
+                <td><input type="text" th:field="*{c2}" /></td>
             </tr>
-            <tr th:object="${course1X}">
+            <tr th:object="${course}">
                 <td>Type 1X:</td>
-                <td><input type="text" th:field="*{value}" /></td>
+                <td><input type="text" th:field="*{c1X}" /></td>
             </tr>
-            <tr th:object="${course2X}">
+            <tr th:object="${course}">
                 <td>Type 2X:</td>
-                <td><input type="text" th:field="*{value}" /></td>
+                <td><input type="text" th:field="*{c2X}" /></td>
             </tr>
-            <tr th:object="${course12}">
+            <tr th:object="${course}">
                 <td>Type 12:</td>
-                <td><input type="text" th:field="*{value}" /></td>
+                <td><input type="text" th:field="*{c12}" /></td>
             </tr>
 
-<!--            ###################      READ ME           #################-->
-<!--            Próbowałem przypisywać wartosci kursów bezpośreednio do obiektów Course (które chcialem -->
-<!--            przekazac do kstruktora match(), ale nie wiem dlaczego thymleaf po przypisaniu 1 wartosci -->
-<!--            kursu ustawial wszystkie inne kursy na tą samą wartość-->
-<!--            Próbowałem tez przypisywac do zmiennej i potem w controlerze w konstruktorze match()-->
-<!--            podstawiałem...no ale sie sypało.-->
-<!--            Doszedłem do wniosku ze musi byc przekazana klasa z getterami setterami konstruktorem-->
-<!--            by działać na th:field   -->
-<!--            Dlatego własnie stworzona jest dodatkowa klasa Course która ma 6 zmiennych float-->
-<!--            ale w razie co zostawiłem jeszcze kod pod spodem (z tych nie udanych prób-->
-<!--            ###################      READ ME           #################-->
-
-
-    <!--    <form action="#" th:action="@{/save}" th:object="${matchBet}" method="post">-->
-    <!--        <table border="0" cellpadding="10">-->
-    <!--            <tr>-->
-    <!--                <td>Product ID:</td>-->
-    <!--                <td>-->
-    <!--                    <input type="text" th:field="*{id}" readonly="readonly" />-->
-    <!--                </td>-->
-    <!--            </tr>-->
-    <!--            <tr>-->
-    <!--                <td>Team 1 Name:</td>-->
-    <!--                <td><input type="text" th:field="*{team1}" /></td>-->
-    <!--            </tr>-->
-    <!--            <tr>-->
-    <!--                <td>Team 2 Name:</td>-->
-    <!--                <td><input type="text" th:field="*{team2}" /></td>-->
-    <!--            </tr>-->
-    <!--            <tr>-->
-    <!--                <td>Type 1:</td>-->
-    <!--                <td><input type="text" th:field="*{type_1}" /></td>-->
-    <!--            </tr>-->
-    <!--            <tr>-->
-    <!--                <td>Type X:</td>-->
-    <!--                <td><input type="text" th:field="*{type_X}" /></td>-->
-    <!--            </tr>-->
-    <!--            <tr>-->
-    <!--                <td>Type 2:</td>-->
-    <!--                <td><input type="text" th:field="*{type_2}" /></td>-->
-    <!--            </tr>-->
-    <!--            <tr>-->
-    <!--                <td>Type 1X:</td>-->
-    <!--                <td><input type="text" th:field="*{type_1X}" /></td>-->
-    <!--            </tr>-->
-    <!--            <tr>-->
-    <!--                <td>Type 2X:</td>-->
-    <!--                <td><input type="text" th:field="*{type_2X}" /></td>-->
-    <!--            </tr>-->
-    <!--            <tr>-->
-    <!--                <td>Type 12:</td>-->
-    <!--                <td><input type="text" th:field="*{type_12}" /></td>-->
-    <!--            </tr>-->
-    <!--            <tr>-->
-    <!--                <td>Date :</td>-->
-    <!--                <td><input type="text" th:field="*{date}" /></td>-->
-    <!--            </tr>-->
-    <!--            <tr>-->
-    <!--                <td>Type 1:</td>-->
-    <!--                <td><input type="text" th:field="*{time}" /></td>-->
-    <!--            </tr>-->
+            <!--            ###################      READ ME           #################-->
+            <!--            Próbowałem przypisywać wartosci kursów bezpośreednio do obiektów Course (które chcialem -->
+            <!--            przekazac do kstruktora match(), ale nie wiem dlaczego thymleaf po przypisaniu 1 wartosci -->
+            <!--            kursu ustawial wszystkie inne kursy na tą samą wartość-->
+            <!--            Próbowałem tez przypisywac do zmiennej i potem w controlerze w konstruktorze match()-->
+            <!--            podstawiałem...no ale sie sypało.-->
+            <!--            Doszedłem do wniosku ze musi byc przekazana klasa z getterami setterami konstruktorem-->
+            <!--            by działać na th:field   -->
+            <!--            Dlatego własnie stworzona jest dodatkowa klasa Course która ma 6 zmiennych float-->
+            <!--            ale w razie co zostawiłem jeszcze kod pod spodem (z tych nie udanych prób-->
+            <!--            ###################      READ ME           #################-->
+<!--            <tr th:object="${course1}">-->
+<!--                <td>Type 1:</td>-->
+<!--                <td><input type="text"  th:field="*{value}" /></td>-->
+<!--            </tr>-->
+<!--            <tr th:object="${courseX}" >-->
+<!--                <td>Type X:</td>-->
+<!--                <td><input type="text" th:field="*{value}" /></td>>-->
+<!--            </tr>-->
+<!--            <tr th:object="${course2}">-->
+<!--                <td>Type 2:</td>-->
+<!--                <td><input type="text" th:field="*{value}" /></td>-->
+<!--            </tr>-->
+<!--            <tr th:object="${course1X}">-->
+<!--                <td>Type 1X:</td>-->
+<!--                <td><input type="text" th:field="*{value}" /></td>-->
+<!--            </tr>-->
+<!--            <tr th:object="${course2X}">-->
+<!--                <td>Type 2X:</td>-->
+<!--                <td><input type="text" th:field="*{value}" /></td>-->
+<!--            </tr>-->
+<!--            <tr th:object="${course12}">-->
+<!--                <td>Type 12:</td>-->
+<!--                <td><input type="text" th:field="*{value}" /></td>-->
+<!--            </tr>-->
             <tr>
                 <td colspan="2"><button type="submit">Save</button> </td>
             </tr>

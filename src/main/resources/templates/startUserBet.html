@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>UserBet Platform</title>
+
+    <link rel="stylesheet" href="../static/helloStyle.css" th:href="@{/helloStyle.css}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
+</head >
+<body>
+<div align="center">
+    <h1>Bets List</h1>
+    <a href="/new">Create New match bet</a>
+</div>
+<br/><br/>
+<div id="container">
+    <div id="leagues">
+        <h1>LIGI</h1>
+        <br></br>
+        <table border="1" cellpadding="10">
+            <tr><td><a th:href="@{'/user/'+${user.id}+'/ALL/'+${coupon.id}}">All Leagues</a></td></tr>
+            <tr><td><a th:href="@{'/user/'+${user.id}+'/CL/'+${coupon.id}}">Liga Mistrzów</a></td></tr>
+            <tr><td><a th:href="@{'/user/'+${user.id}+'/ANG1/'+${coupon.id}}">Premier League</a></td></tr>
+            <tr><td><a th:href="@{'/user/'+${user.id}+'/ESP1/'+${coupon.id}}">Primera Division</a></td></tr>
+            <tr><td><a th:href="@{'/user/'+${user.id}+'/GER1/'+${coupon.id}}">Bundesliga</a></td></tr>
+            <tr><td><a th:href="@{'/user/'+${user.id}+'/ITA1/'+${coupon.id}}">Seria A</a></td></tr>
+            <tr><td><a th:href="@{'/user/'+${user.id}+'/FRA1/'+${coupon.id}}">Ligue 1</a></td></tr>
+            <tr><td><a th:href="@{'/user/'+${user.id}+'/POL1/'+${coupon.id}}">Ekstraklasa</a></td></tr>
+        </table>
+    </div>
+    <div id="matchAndCourses">
+        <table border="1" cellpadding="10">
+            <thead>
+            <tr>
+                <th>Bet ID</th>
+                <th>League</th>
+                <th>Team 1</th>
+                <th>Team 2</th>
+                <th>1</th>
+                <th>X</th>
+                <th>2</th>
+                <th>1X</th>
+                <th>2X</th>
+                <th>12</th>
+                <th>date</th>
+                <th>time</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="match,iter : ${listMatch}">
+                <td th:text="${match.id}">BET ID</td>
+                <td th:text="${match.league}">League</td>
+                <td th:text="${match.team1}">Team 1</td>
+                <td th:text="${match.team2}">Team 2</td>
+                <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get(iter.index).id}+'/'+${user.id}+'/ALL'}" method="post">
+                    <td><button type="submit" th:text="${listCourses.get(iter.index).value}">1</button> </td>
+                </form>
+                <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size()*3)+iter.index).id}+'/'+${user.id}+'/ALL'}" method="post">
+                    <td><button type="submit" th:text="${listCourses.get((listMatch.size()*3)+iter.index).value}">X</button> </td>
+                </form>
+                <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size()*2)+iter.index).id}+'/'+${user.id}+'/ALL'}" method="post">
+                    <td><button type="submit" th:text="${listCourses.get((listMatch.size()*2)+iter.index).value}">2</button> </td>
+                </form>
+                <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size()*4)+iter.index).id}+'/'+${user.id}+'/ALL'}" method="post">
+                    <td><button type="submit" th:text="${listCourses.get((listMatch.size()*4)+iter.index).value}">1X</button> </td>
+                </form>
+                <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size()*5)+iter.index).id}+'/'+${user.id}+'/ALL'}" method="post">
+                    <td><button type="submit" th:text="${listCourses.get((listMatch.size()*5)+iter.index).value}">2X</button> </td>
+                </form>
+                <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size())+iter.index).id}+'/'+${user.id}+'/ALL'}" method="post">
+                    <td><button type="submit" th:text="${listCourses.get((listMatch.size())+iter.index).value}">12</button> </td>
+                </form>
+                <td th:text="${match.date}">date</td>
+                <td th:text="${match.time}">time</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="bet">
+        <h1>ZAKALADY</h1>
+        <table border="1" cellpadding="10">
+            <thead>
+            <tr>
+                <th>Bet ID</th>
+                <th>Match</th>
+                <th>Type</th>
+                <th>Value</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="course,iter : ${listCoursesOnBet}">
+                <td th:text="${course.id}">ID</td>
+                <td th:text="${listMatchNamed.get(iter.index)}">Match</td>
+                <td th:text="${course.type}">Type</td>
+                <td th:text="${course.value}">Value</td>
+                <td>
+                    <a th:href="@{'/deleteBet/' + ${listCouponCourse.get(iter.index)}+'/'+${user.id}+'/'+${coupon.id}}">Delete</a>
+                </td>
+            </tr>
+            </form>
+            <form action="#" th:action="@{'/editAmount/'+${coupon.id}+'/'+${user.id}}" th:object="${coupon}" method="POST">
+                <tr>
+                    <td colspan="2">Count</td>
+                    <td colspan="3"><input type="text" th:field="*{amount}" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Total Rate</td>
+                    <td colspan="3" th:text="*{rate}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Possible Win</td>
+                    <td><button type="submit">Calculate</button></td>
+                    <td colspan="2" th:text="*{possibleWin}"></td>
+                </tr>
+            </form>
+            <tr>
+                <form action="#" th:action="@{'/confirmBet/'+${user.id}+'/'+${coupon.id}}" method="post">
+                    <td colspan="5"><button type="submit">CONFIRM</button></td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

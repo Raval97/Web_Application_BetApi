@@ -1,5 +1,6 @@
 package webapplication.bet.service;
 
+import org.springframework.data.domain.Sort;
 import webapplication.bet.model.Courses;
 import webapplication.bet.repo.CoursesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class CoursesService {
     private CoursesRepository repo;
 
     public List<Courses> listAll() {
-        return repo.findAll();
+        return repo.findAll(Sort.by("type").ascending().and(Sort.by("id").ascending()));
     }
 
     public void save(Courses courses) {
@@ -30,4 +31,26 @@ public class CoursesService {
     public void delete(long id) {
         repo.deleteById(id);
     }
+
+
+    public List<Courses> listAllByMatchLeague(String league){
+        return repo.findAllByMatch_LeagueOrderByTypeAscIdAsc(league);
+    }
+
+    public List<Courses> listAllByCouponId(Long id){
+        return repo.findAllByCouponId(id);
+    }
+
+    public List<Courses> listAllByUserIdInCoupon(Long idUser, Long couponId){
+        return repo.findAllByUserIdInCouponId(idUser, couponId);
+    }
+
+    public Courses getByMatchIdAndType(Long id, String type){
+        return repo.findByMatch_IdAndType(id, type);
+    }
+
+    public void updateCurseValue(float value, Long id){
+        repo.updateValue(value, id);
+    }
+
 }

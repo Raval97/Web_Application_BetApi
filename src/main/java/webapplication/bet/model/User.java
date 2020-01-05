@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 @Entity
 @Table(name="user")
-public class AppUser implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class AppUser implements UserDetails {
     @OneToMany(mappedBy = "idUser", cascade = CascadeType.ALL)
     private Set<Coupon> coupon;
 
-    public AppUser(String username, String password, String role, Coupon... coupon) {
+    public User(String username, String password, String role, Coupon... coupon) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -41,7 +41,7 @@ public class AppUser implements UserDetails {
         this.coupon.forEach(x -> x.setIdUser(this));
     }
 
-    public AppUser() {
+    public User() {
     }
 
 //    public Long getId() {

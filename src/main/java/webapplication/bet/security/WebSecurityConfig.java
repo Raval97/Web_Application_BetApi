@@ -1,29 +1,26 @@
 package webapplication.bet.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.event.EventListener;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import webapplication.bet.model.AppUser;
-import webapplication.bet.repo.AppUserRepo;
-import webapplication.bet.service.UserDetailsServiceImpl;
+import webapplication.bet.repo.UserRepository;
+import webapplication.bet.service.UserService;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private UserDetailsServiceImpl userDetailsService;
-    private AppUserRepo appUserRepo;
+    private UserService userDetailsService;
+    private UserRepository userRepository;
 
     @Autowired
-    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, AppUserRepo appUserRepo) {
+    public WebSecurityConfig(UserService userDetailsService, UserRepository userRepository) {
         this.userDetailsService = userDetailsService;
-        this.appUserRepo = appUserRepo;
+        this.userRepository = userRepository;
     }
 
     @Override

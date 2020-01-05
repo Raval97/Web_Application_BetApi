@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>User Platform</title>
+    <title>WEB BET</title>
 
     <link rel="stylesheet" href="../static/helloStyle.css" th:href="@{/helloStyle.css}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
@@ -18,14 +18,14 @@
         <h1>LIGI</h1>
         <br></br>
         <table border="1" cellpadding="10">
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/ALL'}">All Leagues</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/CL'}">Liga Mistrzów</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/ANG1'}">Premier League</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/ESP1'}">Primera Division</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/GER1'}">Bundesliga</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/ITA1'}">Seria A</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/FRA1'}">Ligue 1</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/POL1'}">Ekstraklasa</a></td></tr>
+            <tr><td><a th:href="@{'/user/ALL'}">All Leagues</a></td></tr>
+            <tr><td><a th:href="@{'/user/CL'}">Liga Mistrzów</a></td></tr>
+            <tr><td><a th:href="@{'/user/ANG1'}">Premier League</a></td></tr>
+            <tr><td><a th:href="@{'/user/ESP1'}">Primera Division</a></td></tr>
+            <tr><td><a th:href="@{'/user/GER1'}">Bundesliga</a></td></tr>
+            <tr><td><a th:href="@{'/user/ITA1'}">Seria A</a></td></tr>
+            <tr><td><a th:href="@{'/user/FRA1'}">Ligue 1</a></td></tr>
+            <tr><td><a th:href="@{'/user/POL1'}">Ekstraklasa</a></td></tr>
         </table>
     </div>
     <div id="matchAndCourses">
@@ -60,39 +60,6 @@
                 <td th:text="${listCourses.get((listMatch.size())+iter.index).value}">12</td>
                 <td th:text="${match.date}">date</td>
                 <td th:text="${match.time}">time</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div id="bet">
-        <h1>ZAKALADY</h1>
-        <table border="1" cellpadding="10">
-            <thead>
-            <tr>
-                <th>Bet ID</th>
-                <th>Match</th>
-                <th>Type</th>
-                <th>Value</th>
-                <th>Delete</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td colspan="2">Count</td>
-                <td colspan="3">0</td>
-            </tr>
-            <tr>
-                <td colspan="2">Total Rate</td>
-                <td colspan="3">0</td>
-            </tr>
-            <tr>
-                <td colspan="2">Possible Win</td>
-                <td colspan="3">0</td>
-            </tr>
-            <tr>
-                <form action="#" th:action="@{'/newBet/'+${user.id}}" method="post">
-                    <td colspan="5"><button type="submit">NEW BET</button></td>
-                </form>
             </tr>
             </tbody>
         </table>

@@ -30,4 +30,25 @@ public class CouponService {
     public void delete(long id) {
         repo.deleteById(id);
     }
+
+
+    public List<Coupon> listAllByUserId(Long id){
+        return repo.findAllByIdUser(id);
+    }
+
+    public void  updateAmount(float amount, Long id){
+        repo.updateAmount(amount, id);
+    }
+
+    public void  updateDate(Long id){
+        repo.updateDate(id);
+    }
+
+    public void newCoupon(Long id){
+        repo.addCoupon(id);
+    }
+
+    public int getLatsCouponId(){
+        return repo.getLastCouponId();
+    }
 }
