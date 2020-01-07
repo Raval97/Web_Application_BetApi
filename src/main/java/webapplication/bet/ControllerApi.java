@@ -3,8 +3,10 @@ package webapplication.bet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import webapplication.bet.model.*;
 import webapplication.bet.service.*;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,11 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ControllerApi {
 
     private UserService userService;
+    private ClientService clientService;
     private MatchService matchService;
     private CoursesService coursesService;
     private CouponCourseService couponCourseService;
@@ -25,12 +29,13 @@ public class ControllerApi {
     @Autowired
     public ControllerApi(UserService userService, MatchService matchService,
                          CoursesService coursesService, CouponCourseService couponCourseService,
-                         CouponService couponService) {
+                         CouponService couponService, ClientService clientService) {
         this.userService = userService;
         this.matchService = matchService;
         this.coursesService = coursesService;
         this.couponCourseService = couponCourseService;
         this.couponService = couponService;
+        this.clientService = clientService;
     }
 
     public ControllerApi() {
@@ -100,6 +105,7 @@ public class ControllerApi {
             listCourses = coursesService.listAllByMatchLeague(leagues);
         }
         List<String> listMatchNamed = matchService.listAllMatchNamed(user_id, coupon_id);
+//        Coupon coupon = couponService.get(coupon_id);
         Coupon coupon = couponService.get(coupon_id);
         List<Courses> listCoursesOnBet = coursesService.listAllByUserIdInCoupon(user_id, coupon_id);
         List<Long> listCouponCourse = couponCourseService.listAllIdByUserIdInCoupon(user_id, coupon_id);
@@ -151,28 +157,29 @@ public class ControllerApi {
 //############## USER Settings ##########################################   http://localhost:8080/user/settings/1
     @RequestMapping("/user/settings/{user}")
     public String viewPageUserSettings(@PathVariable(name = "user") Long user_id, Model model) {
-        User user = userService.get(user_id);
-        model.addAttribute("user", user);
-        return "user_settings";
+        Client client = clientService.get(user_id);
+        model.addAttribute("client", client);
+        return "user_account";
     }
 
-//############## USER Coupon ##########################################   http://localhost:8080/user/coupons/1
+//############## USER Coupon ##########################################   http://localhost:8080/user/coupons/0
     @RequestMapping("/user/coupons/{user}/{couponId}")
     public String viewPageUserCoupons(@PathVariable(name = "user") Long user_id,
                                       @PathVariable(name = "couponId") Long couponId, Model model) {
         User user = userService.get(user_id);
         List<Coupon> couponList = couponService.listAllByUserId(user_id);
+        Coupon coupon=null;// =couponService.get(couponId);
         if(couponId!=0) {
             List<Match> matchList = matchService.listAllByCouponId(couponId);
             List<Courses> coursesList = coursesService.listAllByCouponId(couponId);
-            Coupon coupon =couponService.get(couponId);
+            coupon =couponService.get(couponId);
             model.addAttribute("mathList", matchList);
             model.addAttribute("coursesList", coursesList);
-            model.addAttribute("coupon", coupon);
+
         }
+        model.addAttribute("coupon", coupon);
         model.addAttribute("user", user);
         model.addAttribute("couponList", couponList);
-
         return "user_coupons";
     }
 
@@ -266,10 +273,20 @@ public class ControllerApi {
         return "hello";
     }
 
-    @GetMapping("/test")
+    @GetMapping("/registration")
     public  String test(Model model){
-        model.addAttribute("newUser", new User());
+        User user = new User();
+        model.addAttribute("user", user);
+        model.addAttribute("client", new Client());
         return "registration";
+    }
+
+    @PostMapping("/add-user")
+    public String addCar(@ModelAttribute User user, @ModelAttribute Client client) {
+        client.setBetAccountBalance(1000);
+        User newUser = new User(user.getUsername(), user.getPassword(), "ROLE_USER", client);
+        userService.save(newUser);
+        return "redirect:/user/ALL";
     }
 
     @GetMapping("/test1")
@@ -284,9 +301,4 @@ public class ControllerApi {
         return "hello admin";
     }
 
-    @PostMapping("/add-user")
-    public String addCar(@ModelAttribute User user) {
-       userService.save(user);
-        return "redirect:/hello";
-    }
 }

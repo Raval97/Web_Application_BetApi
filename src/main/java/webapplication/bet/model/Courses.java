@@ -37,24 +37,4 @@ public class Courses {
     public Courses() {
     }
 
-//    private enum Type implements Description{
-//        T1 ("1"),
-//        T2 ("2"),
-//        TX ("X"),
-//        T1X ("1X"),
-//        T2X ("2X"),
-//        T12 ("12");
-//
-//        private String description;
-//
-//        Type(String description) {
-//            this.description = description;
-//        }
-//
-//        @Override
-//        public String getHumanReadableDescription(){
-//            return description;
-//        }
-//    };
-
 }

@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Data
-@EqualsAndHashCode(exclude = "coupon")
+@EqualsAndHashCode(exclude = "coupon" )
+//@EqualsAndHashCode(exclude = "client")
 
 @Entity
 @Table(name="user")
@@ -32,42 +33,40 @@ public class User implements UserDetails {
     private String role;
     @OneToMany(mappedBy = "idUser", cascade = CascadeType.ALL)
     private Set<Coupon> coupon;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Client client;
 
-    public User(String username, String password, String role, Coupon... coupon) {
+    public User(String username, String password, String role, Client client, Coupon... coupon) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.client=client;
+        this.client.setUser(this);
         this.coupon = Stream.of(coupon).collect(Collectors.toSet());
         this.coupon.forEach(x -> x.setIdUser(this));
+    }
+
+//    public User(String username, String password, String role, Coupon... coupon) {
+//        this.username = username;
+//        this.password = password;
+//        this.role = role;
+//        this.coupon = Stream.of(coupon).collect(Collectors.toSet());
+//        this.coupon.forEach(x -> x.setIdUser(this));
+//    }
+
+    public User(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     public User() {
     }
 
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public void setUsername(String username) {
-//        this.username = username;
-//    }
-
     public void setPassword(String password) {
         this.password = password;
         this.password = passwordEncoder().encode(password);
     }
-
-//    public String getRole() {
-//        return role;
-//    }
-//
-//    public void setRole(String role) {
-//        this.role = role;
-//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -10,9 +10,17 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
 </head >
 <body>
-<div align="center">
+<div align="right">
+    <a th:href="@{'/logout'}">LOG OUT</a>
+</div>
+<div align="right" style="clear:both">
+    <a th:href="@{'/user/coupons/'+${user.id}+'/0'}">MY ACCOUNT</a>
+</div>
+<div align="right" style="clear:both">
+    <a th:href="@{'/user/settings/'+${user.id}}">SETTINGS</a>
+</div>
+<div align="center" style="clear:both">
     <h1>Bets List</h1>
-    <a href="/new">Create New match bet</a>
 </div>
 <br/><br/>
 <div id="container">

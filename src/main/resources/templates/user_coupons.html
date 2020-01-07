@@ -9,7 +9,13 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
 </head >
 <body>
-<div align="center">
+<div align="left">
+    <a th:href="@{'/user/'+${user.id}+'/ALL'}">BACK to start page</a>
+</div>
+<div align="right" style="clear:both">
+    <a th:href="@{'/logout'}">LOG OUT</a>
+</div>
+<div align="center" style="clear:both">
     <h1>User Coupons</h1>
 </div>
 <br/><br/>
@@ -30,7 +36,8 @@
             <tbody>
                 <tr th:each="coupon : ${couponList}">
                     <td th:text="${coupon.id}">ID</td>
-                    <td><a th:href="@{'/user/coupons/'+${user.id}+'/'+${coupon.id}}" th:text="${coupon.date.toLocalDate()}"></a></td>
+<!--                    <td><a th:href="@{'/user/coupons/'+${user.id}+'/'+${coupon.id}}" th:text="${coupon.date.toLocalDate()}"></a></td>-->
+                    <td><a th:href="@{'/user/coupons/'+${user.id}+'/'+${coupon.id}}" th:text="${coupon.date}"></a></td>
                     <td th:text="${coupon.amount}">Amount</td>
                     <td th:text="${coupon.rate}">Rate</td>
                     <td th:text="${coupon.state}">State</td>
@@ -64,19 +71,20 @@
                     <td th:text="${coursesList.get(iter.index).value}">Type</td>
                     <td th:text="${coursesList.get(iter.index).state}">State</td>
                 </tr>
-                <tr>
-                    <td colspan="6">total of</td>
-                    <td th:text="${coupon.rate}">Rate</td>
-                    <td th:text="${coupon.state}">State</td>
-                </tr>
-                <tr>
-                    <td colspan="6">amount wagered</td>
-                    <td colspan="2" th:text="${coupon.amount}">Amount</td>
-                </tr>
-                <tr>
-                    <td colspan="6">Possible Win</td>
-                    <td colspan="2" th:text="${coupon.possibleWin}"></td>
-                </tr>
+                    <tr th:if="${coupon != null}">
+                        <td colspan="6">total of</td>
+                        <td th:text="${coupon.rate}">Rate</td>
+                        <td th:text="${coupon.state}">State</td>
+                    </tr>
+                    <tr th:if="${coupon != null}">
+                        <td colspan="6">amount wagered</td>
+                        <td colspan="2" th:text="${coupon.amount}">Amount</td>
+                    </tr>
+                    <tr th:if="${coupon != null}">
+                        <td colspan="6">Possible Win</td>
+                        <td colspan="2" th:text="${coupon.possibleWin}"></td>
+                    </tr>
+<!--                </div>-->
             </tbody>
         </table>
     </div>
