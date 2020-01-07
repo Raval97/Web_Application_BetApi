@@ -30,4 +30,20 @@ public class CouponCourseService {
     public void delete(long id) {
         repo.deleteById(id);
     }
+
+
+    public List<Long> listAllIdByUserIdInCoupon(Long idUser, Long couponId){
+        return repo.findAllIdByUserIdInCoupon(idUser, couponId);
+    }
+
+    public void saveNewCouponCourse(Long idCoupon, Long idCourse){
+        repo.newCouponCourse(idCoupon, idCourse);
+    }
+
+    public boolean checkIfMatchIsInCoupon(Long idMatch, Long idCoupon){
+        if(repo.checkMatchInCoupon(idMatch, idCoupon)==1)
+            return true;
+        else
+            return false;
+    }
 }

@@ -5,22 +5,29 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import webapplication.bet.repo.AppUserRepo;
+import webapplication.bet.model.User;
+import webapplication.bet.repo.UserRepository;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserService implements UserDetailsService {
 
-    private AppUserRepo appUserRepo;
+    private UserRepository repo;
 
     @Autowired
-    public UserDetailsServiceImpl(AppUserRepo appUserRepo) {
-        this.appUserRepo = appUserRepo;
+    public UserService(UserRepository userRepository) {
+        this.repo = userRepository;
     }
 
+    public User get(long id) {
+        return repo.findByUserId(id);
+    }
+
+    public void save(User user){
+        repo.save(user);
+    }
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return appUserRepo.findByUsername(s);
+        return repo.findByUsername(s);
     }
 
 }

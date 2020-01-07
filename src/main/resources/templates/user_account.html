@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>EDIT USER</title>
+
+    <link rel="stylesheet" href="../static/helloStyle.css" th:href="@{/helloStyle.css}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
+</head>
+<body>
+<div align="left">
+    <a th:href="@{'/user/'+${client.id}+'/ALL'}">BACK to start page</a>
+</div>
+<div align="right" style="clear:both">
+    <a th:href="@{'/logout'}">LOG OUT</a>
+</div>
+<div align="center" style="clear:both">
+    <h1>USER DATA</h1>
+    <br />
+    <table border="0" cellpadding="10" th:object="${client}">
+        <tr>
+            <td>First Name:</td>
+            <td th:text="*{name}"></td>
+        </tr>
+        <tr>
+            <td>Second Name:</td>
+            <td th:text="*{surname}"></td>
+        </tr>
+        <tr>
+            <td>Date Of Birth:</td>
+            <td th:text="*{dateOfBirth}"></td>
+        </tr>
+        <tr>
+            <td>Place of resistance:</td>
+            <td th:text="*{placeOdResidence}"></td>
+        </tr>
+        <tr>
+            <td>Street:</td>
+            <td th:text="*{street}"></td>
+        </tr>
+        <tr>
+            <td>Number of Apartment:</td>
+            <td th:text="*{nrApartment}"></td>
+        </tr>
+        <tr>
+            <td>Email Address:</td>
+            <td th:text="*{email}" ></td>
+        </tr>
+        <tr>
+            <td>Number of Bank Account:</td>
+            <td th:text="*{nrOfBankAccount}"></td>
+        </tr>
+        <tr>
+            <td>Bet Account Ballance:</td>
+            <td th:text="*{betAccountBalance}"></td>
+            <td><a th:href="@{'/user/'+${client.id}+'/ALL'}">top up your account</a></td>
+        </tr>
+        <tr></tr>
+        <tr>
+            <td><a th:href="@{'/user/'+${client.id}+'/ALL'}">EDIT YOUR DATA</a></td>
+            <td><a th:href="@{'/user/'+${client.id}+'/ALL'}">CHANGE PASSWORD</a></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
