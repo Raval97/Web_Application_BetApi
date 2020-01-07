@@ -1,17 +1,29 @@
 package webapplication.bet.model;
 
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.service.spi.InjectService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+@Data
+@EqualsAndHashCode(exclude = "coupon" )
+//@EqualsAndHashCode(exclude = "client")
 
 @Entity
 @Table(name="user")
-public class AppUser implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,38 +31,41 @@ public class AppUser implements UserDetails {
     private String username;
     private String password;
     private String role;
+    @OneToMany(mappedBy = "idUser", cascade = CascadeType.ALL)
+    private Set<Coupon> coupon;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Client client;
 
-    public AppUser(String username, String password, String role) {
+    public User(String username, String password, String role, Client client, Coupon... coupon) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.client=client;
+        this.client.setUser(this);
+        this.coupon = Stream.of(coupon).collect(Collectors.toSet());
+        this.coupon.forEach(x -> x.setIdUser(this));
+    }
+
+//    public User(String username, String password, String role, Coupon... coupon) {
+//        this.username = username;
+//        this.password = password;
+//        this.role = role;
+//        this.coupon = Stream.of(coupon).collect(Collectors.toSet());
+//        this.coupon.forEach(x -> x.setIdUser(this));
+//    }
+
+    public User(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public AppUser() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public User() {
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+        this.password = passwordEncoder().encode(password);
     }
 
     @Override
@@ -86,5 +101,10 @@ public class AppUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @InjectService
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
