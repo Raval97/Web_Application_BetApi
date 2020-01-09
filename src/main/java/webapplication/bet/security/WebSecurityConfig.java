@@ -47,10 +47,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
+//
 //    @EventListener(ApplicationReadyEvent.class)
 //    public void get() {
 //        Client client = new Client("Adam", "Malysz", "Wisla", "Krakowska", 99,

@@ -1,12 +1,12 @@
 package webapplication.bet.model;
 
 public class Course {
-    float c1=1;
-    float cX=1;
-    float c2=1;
-    float c1X=1;
-    float c2X=1;
-    float c12=1;
+    float c1 = (float) 1.5;
+    float cX = (float) 1.5;
+    float c2 = (float) 1.5;
+    float c1X = (float) 1.5;
+    float c2X = (float) 1.5;
+    float c12 = (float) 1.5;
 
     public Course() {
     }

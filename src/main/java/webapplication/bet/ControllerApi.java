@@ -3,18 +3,16 @@ package webapplication.bet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import webapplication.bet.model.*;
+import webapplication.bet.security.WebSecurityConfig;
 import webapplication.bet.service.*;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class ControllerApi {
@@ -41,7 +39,7 @@ public class ControllerApi {
     public ControllerApi() {
     }
 
-//############## START USER ##########################################   http://localhost:8080/user/ALL
+    //############## START USER ##########################################   http://localhost:8080/user/ALL
     @RequestMapping("/user/{league}")
     public String viewStartPage(@PathVariable(name = "league") String leagues, Model model) {
         List<Match> listMatch;
@@ -59,8 +57,8 @@ public class ControllerApi {
         return "startPage";
     }
 
-//############## START USER ##########################################   http://localhost:8080/user/1/ALL
-    @RequestMapping("/user/{user}/{league}")
+    //############## START USER ##########################################   http://localhost:8080/user/1/ALL
+    @RequestMapping("/client/{user}/{league}")
     public String viewPageUserByLeagues(@PathVariable(name = "league") String leagues,
                                         @PathVariable(name = "user") Long user_id, Model model) {
         User user = userService.get(user_id);
@@ -77,7 +75,7 @@ public class ControllerApi {
         model.addAttribute("user", user);
         model.addAttribute("listMatch", listMatch);
         model.addAttribute("listCourses", listCourses);
-        return "startUser";
+        return "client";
     }
 
     @RequestMapping("/newBet/{user}")
@@ -85,11 +83,11 @@ public class ControllerApi {
         System.out.println("Nowy zakład");
         couponService.newCoupon(user_id);
         int couponId=couponService.getLatsCouponId();
-        return "redirect:/user/"+user_id+"/ALL/"+couponId;
+        return "redirect:/client/"+user_id+"/ALL/"+couponId;
     }
 
-//################## START BET USER ########################################  http://localhost:8080/user/1/ALL/1
-    @RequestMapping("/user/{user}/{league}/{coupon}")
+    //################## START BET USER ########################################  http://localhost:8080/user/1/ALL/1
+    @RequestMapping("/client/{user}/{league}/{coupon}")
     public String viewPageUserByLeagues(@PathVariable(name = "league") String leagues,
                                         @PathVariable(name = "user") Long user_id,
                                         @PathVariable(name = "coupon") Long coupon_id, Model model) {
@@ -116,7 +114,7 @@ public class ControllerApi {
         model.addAttribute("listMatchNamed", listMatchNamed);
         model.addAttribute("listCoursesOnBet", listCoursesOnBet);
         model.addAttribute("listCouponCourse", listCouponCourse);
-        return "startUserBet";
+        return "clientBet";
     }
 
     @RequestMapping(value="/add/{idCoupon}/{idCourse}/{user}/{league}", method = RequestMethod.POST)
@@ -127,7 +125,7 @@ public class ControllerApi {
             couponCourseService.saveNewCouponCourse(idCoupon, idCourse);
         else
             System.out.println("Mecz jest juz na kuponie i nie mozna go ponownie obstawic");
-        return "redirect:/user/"+user_id+"/"+league+"/"+idCoupon;
+        return "redirect:/client/"+user_id+"/"+league+"/"+idCoupon;
     }
 
     @RequestMapping(value = "/editAmount/{idCoupon}/{user}", method = RequestMethod.POST)
@@ -135,7 +133,7 @@ public class ControllerApi {
                                        @PathVariable("idCoupon") Long idCoupon,
                                        @PathVariable(name = "user") Long user_id){
         couponService.updateAmount(coupon.getAmount(), idCoupon);
-        return "redirect:/user/"+user_id+"/ALL/"+idCoupon;
+        return "redirect:/client/"+user_id+"/ALL/"+idCoupon;
     }
 
     @RequestMapping("/deleteBet/{id}/{user}/{coupon}")
@@ -143,27 +141,74 @@ public class ControllerApi {
                                       @PathVariable(name = "user") Long user_id,
                                       @PathVariable(name = "coupon") Long coupon_id) {
         couponCourseService.delete(id);
-        return "redirect:/user/"+user_id+"/ALL/"+coupon_id;
+        return "redirect:/client/"+user_id+"/ALL/"+coupon_id;
     }
 
     @RequestMapping("/confirmBet/{user}/{coupon}")
     public String confirmBetsInCoupon(@PathVariable(name = "user") Long user_id,
                                       @PathVariable(name = "coupon") Long coupon_id) {
-        System.out.println("\n\nZakład potwierdzony\n\n");
-        couponService.updateDate(coupon_id);
-        return "redirect:/user/"+user_id+"/ALL";
+        if(couponService.checkAvailabilityMoney(coupon_id)) {
+            System.out.println("\n\nZakład potwierdzony\n\n");
+            couponService.updateDate(coupon_id);
+            return "redirect:/client/" + user_id + "/ALL";
+        }
+        else {
+            System.out.println("\n\nNie wystarczajaca ilosc srodkow na koncie\n\n");
+            return "redirect:/client/" + user_id + "/ALL/"+coupon_id;
+        }
     }
 
-//############## USER Settings ##########################################   http://localhost:8080/user/settings/1
-    @RequestMapping("/user/settings/{user}")
-    public String viewPageUserSettings(@PathVariable(name = "user") Long user_id, Model model) {
+    //############## USER ACCOUNT ##########################################   http://localhost:8080/user/settings/1
+    @RequestMapping("/client/settings/{user}/{type}")
+    public String viewPageUserSettings(@PathVariable(name = "user") Long user_id,
+                                       @PathVariable(name = "type") int type, Model model) {
         Client client = clientService.get(user_id);
         model.addAttribute("client", client);
-        return "user_account";
+        model.addAttribute("type", type);
+        return "client_account";
     }
 
-//############## USER Coupon ##########################################   http://localhost:8080/user/coupons/0
-    @RequestMapping("/user/coupons/{user}/{couponId}")
+    @RequestMapping("/client/{id}/edit/{type}")
+    public ModelAndView showEditMatchPage(@PathVariable(name = "id") Long id, @PathVariable(name = "type") int type) {
+        ModelAndView mav = new ModelAndView("client_edit_date");
+        User user = userService.get(id);
+        Client client = clientService.get(id);
+        String oldPassword= new String();
+        String newPassword= new String();
+        mav.addObject("user", user);
+        mav.addObject("client", client);
+        mav.addObject("type", type);
+        mav.addObject("oldPassword", oldPassword);
+        mav.addObject("newPassword", newPassword);
+        return mav;
+    }
+
+    @RequestMapping(value = "/client/edit_data/{id}", method = RequestMethod.POST)
+    public String editClientData(@PathVariable(name = "id") Long id, @ModelAttribute ("client") Client client){
+        User userToChange = userService.get(id);
+        userToChange.setClient(client);
+        userService.save(userToChange);
+        return "redirect:/client/settings/"+id+"/1";
+    }
+
+    @RequestMapping(value = "/client/change_password/{id}", method = RequestMethod.POST)
+    public String changeClientPassword(@PathVariable(name = "id") Long id,
+                                       @ModelAttribute ("user") User user,
+                                       @RequestParam  String newPassword,
+                                       @RequestParam String oldPassword){
+        User userToChange = userService.get(id);
+        if(WebSecurityConfig.passwordEncoder().matches(oldPassword, userToChange.getPassword())) {
+            userToChange.setPassword(newPassword);
+            userService.save(userToChange);
+            System.out.println("new pass: " + newPassword);
+            System.out.println("old pass: " + oldPassword);
+            return "redirect:/client/settings/" + id+"/1";
+        }
+        else
+            return "redirect:/client/"+id+"/edit/3";
+    }
+    //############## USER Coupon ##########################################   http://localhost:8080/user/coupons/0
+    @RequestMapping("/client/coupons/{user}/{couponId}")
     public String viewPageUserCoupons(@PathVariable(name = "user") Long user_id,
                                       @PathVariable(name = "couponId") Long couponId, Model model) {
         User user = userService.get(user_id);
@@ -180,10 +225,10 @@ public class ControllerApi {
         model.addAttribute("coupon", coupon);
         model.addAttribute("user", user);
         model.addAttribute("couponList", couponList);
-        return "user_coupons";
+        return "client_coupons";
     }
 
-//################  ADMIN  ################################################   http://localhost:8080/admin/ALL
+    //################  ADMIN  ################################################   http://localhost:8080/admin/ALL
     @RequestMapping("/admin/{league}")
     public String viewHomePageAdmin(@PathVariable(name = "league") String leagues, Model model) {
         List<Match> listMatch;
@@ -198,7 +243,7 @@ public class ControllerApi {
         }
         model.addAttribute("listMatch", listMatch);
         model.addAttribute("listCourses", listCourses);
-        return "startAdmin";
+        return "admin";
 
     }
 
@@ -208,7 +253,7 @@ public class ControllerApi {
         Course course = new Course();
         model.addAttribute("match", match);
         model.addAttribute("course", course);
-        return "new_match_courses";
+        return "admin_new_match_courses";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -226,7 +271,7 @@ public class ControllerApi {
 
     @RequestMapping("/edit/{id}")
     public ModelAndView showEditMatchPage(@PathVariable(name = "id") Long id) {
-        ModelAndView mav = new ModelAndView("edit_match_courses");
+        ModelAndView mav = new ModelAndView("admin_edit_match_courses");
         Match match = matchService.get(id);
         Course course = new Course();
         Courses courses1 = coursesService.getByMatchIdAndType(id, "1");
@@ -266,7 +311,7 @@ public class ControllerApi {
         return "redirect:/admin/ALL";
     }
 
-//################  LOGOWANIE & REJESTRACJA  ##################################  http://localhost:8080/hello
+    //################  LOGOWANIE & REJESTRACJA  ##################################  http://localhost:8080/hello
     @GetMapping("/hello")
     public  String get(Model model){
         model.addAttribute("name", "HELLO WORLD");

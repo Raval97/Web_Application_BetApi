@@ -36,6 +36,13 @@ public class CouponService {
         return repo.findAllByIdUser(id);
     }
 
+    public boolean checkAvailabilityMoney(Long id){
+        if(repo.checkAvailabilityMoney(id).equals("true"))
+            return true;
+        else
+            return false;
+    }
+
     public void  updateAmount(float amount, Long id){
         repo.updateAmount(amount, id);
     }
