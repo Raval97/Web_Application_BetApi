@@ -13,10 +13,10 @@
     <a th:href="@{'/logout'}">LOG OUT</a>
 </div>
 <div align="right" style="clear:both">
-    <a th:href="@{'/user/settings/'+${user.id}}">MY ACCOUNT</a>
+    <a th:href="@{'/client/settings/'+${user.id}+'/1'}">MY ACCOUNT</a>
 </div>
 <div align="right" style="clear:both">
-    <a th:href="@{'/user/coupons/'+${user.id}+'/0'}">MY COUPONS</a>
+    <a th:href="@{'/client/coupons/'+${user.id}+'/0'}">MY COUPONS</a>
 </div>
 <div align="center" style="clear:both">
     <h1>Bets List</h1>
@@ -27,14 +27,14 @@
         <h1>LIGI</h1>
         <br></br>
         <table border="1" cellpadding="10">
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/ALL'}">All Leagues</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/CL'}">Liga Mistrzów</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/ANG1'}">Premier League</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/ESP1'}">Primera Division</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/GER1'}">Bundesliga</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/ITA1'}">Seria A</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/FRA1'}">Ligue 1</a></td></tr>
-            <tr><td><a th:href="@{'/user/'+${user.id}+'/POL1'}">Ekstraklasa</a></td></tr>
+            <tr><td><a th:href="@{'/client/'+${user.id}+'/ALL'}">All Leagues</a></td></tr>
+            <tr><td><a th:href="@{'/client/'+${user.id}+'/CL'}">Liga Mistrzów</a></td></tr>
+            <tr><td><a th:href="@{'/client/'+${user.id}+'/ANG1'}">Premier League</a></td></tr>
+            <tr><td><a th:href="@{'/client/'+${user.id}+'/ESP1'}">Primera Division</a></td></tr>
+            <tr><td><a th:href="@{'/client/'+${user.id}+'/GER1'}">Bundesliga</a></td></tr>
+            <tr><td><a th:href="@{'/client/'+${user.id}+'/ITA1'}">Seria A</a></td></tr>
+            <tr><td><a th:href="@{'/client/'+${user.id}+'/FRA1'}">Ligue 1</a></td></tr>
+            <tr><td><a th:href="@{'/client/'+${user.id}+'/POL1'}">Ekstraklasa</a></td></tr>
         </table>
     </div>
     <div id="matchAndCourses">

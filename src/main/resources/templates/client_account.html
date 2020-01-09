@@ -10,7 +10,7 @@
 </head>
 <body>
 <div align="left">
-    <a th:href="@{'/user/'+${client.id}+'/ALL'}">BACK to start page</a>
+    <a th:href="@{'/client/'+${client.id}+'/ALL'}">BACK to start page</a>
 </div>
 <div align="right" style="clear:both">
     <a th:href="@{'/logout'}">LOG OUT</a>
@@ -54,12 +54,21 @@
         <tr>
             <td>Bet Account Ballance:</td>
             <td th:text="*{betAccountBalance}"></td>
-            <td><a th:href="@{'/user/'+${client.id}+'/ALL'}">top up your account</a></td>
+            <td><a th:href="@{'/client/settings/'+${client.id}+'/2'}">top up your account</a></td>
+        <tr th:if="${type == 2}">
+            <td colspan="2">If you want top up your account you must make</td>
+        </tr>
+        <tr th:if="${type == 2}">
+            <td colspan="2">a transfer to the account number below :D</td>
+        </tr>
+        <tr th:if="${type == 2}">
+            <td colspan="2">1234 56789 98765 4321</td>
+        </tr>
         </tr>
         <tr></tr>
         <tr>
-            <td><a th:href="@{'/user/'+${client.id}+'/ALL'}">EDIT YOUR DATA</a></td>
-            <td><a th:href="@{'/user/'+${client.id}+'/ALL'}">CHANGE PASSWORD</a></td>
+            <td><a th:href="@{'/client/'+${client.id}+'/edit/1'}">EDIT YOUR DATA</a></td>
+            <td><a th:href="@{'/client/'+${client.id}+'/edit/2'}">CHANGE PASSWORD</a></td>
         </tr>
     </table>
 </div>

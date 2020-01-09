@@ -47,18 +47,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
-    @EventListener(ApplicationReadyEvent.class)
-    public void get() {
-        Client client = new Client("Adam", "Malysz", "Wisla", "Krakowska", 99,
-                LocalDate.of(1980,01,01), "malysz@gmail.com", "1234", 1000);
-        User appUserUser = new User("User1", passwordEncoder().encode("User1"), "ROLE_USER", client);
-        User appUserAdmin = new User("Admin", passwordEncoder().encode("Admin"), "ROLE_ADMIN");
-        userRepository.save(appUserUser);
-        userRepository.save(appUserAdmin);
-    }
+//
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void get() {
+//        Client client = new Client("Adam", "Malysz", "Wisla", "Krakowska", 99,
+//                LocalDate.of(1980,01,01), "malysz@gmail.com", "1234", 1000);
+//        User appUserUser = new User("User1", passwordEncoder().encode("User1"), "ROLE_USER", client);
+//        User appUserAdmin = new User("Admin", passwordEncoder().encode("Admin"), "ROLE_ADMIN");
+//        userRepository.save(appUserUser);
+//        userRepository.save(appUserAdmin);
+//    }
 }
 

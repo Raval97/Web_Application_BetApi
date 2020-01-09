@@ -27,6 +27,10 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
             "VALUES (NULL, 5, 0, 0, 'N/A', NULL, :id)", nativeQuery = true)
     void addCoupon(@Param("id") Long id);
 
+    @Query(value = " SELECT if(cl.bet_account_balance-possible_win>=0, 'true', 'false') FROM coupon c " +
+            "LEFT JOIN client cl on c.id_user_id=cl.user_id where id= :id", nativeQuery = true)
+    String checkAvailabilityMoney(@Param("id") Long id);
+
     @Query(value = "SELECT max(id) from coupon", nativeQuery = true)
     int getLastCouponId();
 
