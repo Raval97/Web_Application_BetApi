@@ -1,0 +1,124 @@
+
+DELIMITER $$
+CREATE TRIGGER `editAmount` BEFORE UPDATE ON `coupon` FOR EACH ROW BEGIN
+if(old.amount != new.amount) then
+	SET new.possible_win=(new.amount*new.rate);
+END IF;
+END
+$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE TRIGGER `editStateOfCoupon` AFTER UPDATE ON `coupon` FOR EACH ROW BEGIN
+Set @id=new.id;
+SET @win=new.possible_win;
+SET @amount=new.amount;
+if(old.state != new.state) THEN
+	if(new.state="WIN") THEN
+		UPDATE client c SET c.bet_account_balance=c.bet_account_balance+@win
+    	where c.user_id = @id;
+    END IF;
+END IF;
+if(old.date != new.date) then
+	UPDATE client c SET c.bet_account_balance=c.bet_account_balance-@amount
+    where c.user_id = @id;
+END IF;
+END
+$$
+DELIMITER ;
+
+
+
+DELIMITER $$
+CREATE TRIGGER `addCourseToCoupon` AFTER INSERT ON `coupon_course` FOR EACH ROW BEGIN
+set @kurs=(SELECT ROUND(exp(sum(log(coalesce(k.value,1)))),2) FROM coupon_course cc LEFT JOIN coupon c on cc.coupon_id=C.id LEFT JOIN courses k on cc.courses_id=k.id WHERE c.id=new.coupon_id);
+UPDATE coupon c SET rate=@kurs, c.possible_win=(c.amount*@kurs) WHERE c.id=new.coupon_id;
+END
+$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE TRIGGER `deleteCourseFromCoupon` AFTER DELETE ON `coupon_course` FOR EACH ROW BEGIN
+set @kurs=(SELECT ROUND(exp(sum(log(coalesce(k.value,1)))),2) FROM coupon_course cc LEFT JOIN coupon c on cc.coupon_id=C.id LEFT JOIN courses k on cc.courses_id=k.id WHERE c.id=old.coupon_id);
+if @kurs is not null THEN
+UPDATE coupon c SET rate=@kurs, c.possible_win=(c.amount*@kurs) WHERE c.id=old.coupon_id;
+ELSE
+UPDATE coupon c SET rate=0, c.possible_win=0 WHERE c.id=old.coupon_id;
+END IF;
+END
+$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE TRIGGER `editScoreOfMatch` BEFORE UPDATE ON `matches` FOR EACH ROW BEGIN
+SET @id = new.id;
+if(old.score != new.score) then
+	if(new.score = "1") then
+        		UPDATE courses c SET c.state="true" where c.match_id = @id
+        		and (c.type="1" or c.type="X1" or c.type="12");
+
+		 UPDATE courses c SET c.state="false" where c.match_id = @id
+       		 and (c.type="2" or c.type="X" or c.type="X2");
+
+		UPDATE coupon c SET c.state="FAIL" where c.state="N/A" and id in
+		(select * from
+			( SELECT c.id FROM coupon c
+			left join coupon_course cc on c.id=cc.coupon_id
+			left join courses co on co.id=cc.courses_id
+			where co.match_id = @id and (co.type="2" or co.type="X" or co.type="X2") )
+		Q);
+	END IF;
+	IF(new.score = "2") then
+        		UPDATE courses c SET c.state="true" where c.match_id = @id
+        		and (c.type="2" or c.type="X2" or c.type="12");
+
+		UPDATE courses c SET c.state="false" where c.match_id = @id
+        		and (c.type="1" or c.type="X" or c.type="X1");
+
+		UPDATE coupon c SET c.state="FAIL" where c.state="N/A" and id in
+		(select * from
+			( SELECT c.id FROM coupon c
+			left join coupon_course cc on c.id=cc.coupon_id
+			left join courses co on co.id=cc.courses_id
+			where co.match_id = @id and (co.type="1" or co.type="X" or co.type="X1") )
+		Q);
+    	END IF;
+    	IF(new.score = "X") then
+       		UPDATE courses c SET c.state="true" where c.match_id = @id
+        		and (c.type="X" or c.type="X1" or c.type="X2");
+
+		UPDATE courses c SET c.state="false" where c.match_id = @id
+        		and (c.type="1" or c.type="2" or c.type="12");
+
+		UPDATE coupon c SET c.state="FAIL" where c.state="N/A" and id in
+		(select * from
+			( SELECT c.id FROM coupon c
+			left join coupon_course cc on c.id=cc.coupon_id
+			left join courses co on co.id=cc.courses_id
+			where co.match_id = @id and (co.type="1" or co.type="2" or co.type="12") )
+		Q);
+	END IF;
+    	IF(new.score = "N/A") then
+		UPDATE courses c SET c.state="N/A" where c.match_id = @id;
+	END IF;
+
+	UPDATE coupon c SET c.state="WIN"
+	where c.state="N/A" and id in
+        	(select * from
+            		(SELECT if(XX.x=YY.y, id, 0) id from
+            			(SELECT c.id id, count(c.id) x FROM coupon c
+           			left join coupon_course cc on c.id=cc.coupon_id
+            			left join courses co on co.id=cc.courses_id GROUP BY c.id) XX
+           		natural join
+            			(SELECT c.id id, count(co.state) y FROM coupon c
+           			left join coupon_course cc on c.id=cc.coupon_id
+            			left join courses co on co.id=cc.courses_id
+            			where co.state="true" GROUP BY c.id) YY)
+        	Q);
+END IF;
+END
+$$
+DELIMITER ;

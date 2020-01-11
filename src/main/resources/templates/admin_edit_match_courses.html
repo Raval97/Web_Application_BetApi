@@ -9,13 +9,11 @@
     <link rel="stylesheet" href="../static/main.css" th:href="@{/main.css}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
 </head>
-<!--bgcolor=#2F3336 text=#efefef-->
 <body>
-
 
 <div class='top'>
     <div class="container1300px">
-        <div class="logo">Logo</div>
+        <div class="logo"><img src="../static/betoniarabeztla.png" th:src="@{/betoniarabeztla.png}"/></div>
         <div class="oboklogo">
             <div class="logowanie">
                 <a th:href="@{'/admin/ALL'}">BACK to start admin page</a>
@@ -107,41 +105,6 @@
                     <td>Type 12:</td>
                     <td><input type="text" th:field="*{c12}" /></td>
                 </tr>
-                <!--            ###################      READ ME           #################-->
-                <!--            Próbowałem przypisywać wartosci kursów bezpośreednio do obiektów Course (które chcialem -->
-                <!--            przekazac do kstruktora match(), ale nie wiem dlaczego thymleaf po przypisaniu 1 wartosci -->
-                <!--            kursu ustawial wszystkie inne kursy na tą samą wartość-->
-                <!--            Próbowałem tez przypisywac do zmiennej i potem w controlerze w konstruktorze match()-->
-                <!--            podstawiałem...no ale sie sypało.-->
-                <!--            Doszedłem do wniosku ze musi byc przekazana klasa z getterami setterami konstruktorem-->
-                <!--            by działać na th:field   -->
-                <!--            Dlatego własnie stworzona jest dodatkowa klasa Course która ma 6 zmiennych float-->
-                <!--            ale w razie co zostawiłem jeszcze kod pod spodem (z tych nie udanych prób-->
-                <!--            ###################      READ ME           #################-->
-                <!--            <tr th:object="${course1}">-->
-                <!--                <td>Type 1:</td>-->
-                <!--                <td><input type="text"  th:field="*{value}" /></td>-->
-                <!--            </tr>-->
-                <!--            <tr th:object="${courseX}" >-->
-                <!--                <td>Type X:</td>-->
-                <!--                <td><input type="text" th:field="*{value}" /></td>>-->
-                <!--            </tr>-->
-                <!--            <tr th:object="${course2}">-->
-                <!--                <td>Type 2:</td>-->
-                <!--                <td><input type="text" th:field="*{value}" /></td>-->
-                <!--            </tr>-->
-                <!--            <tr th:object="${course1X}">-->
-                <!--                <td>Type 1X:</td>-->
-                <!--                <td><input type="text" th:field="*{value}" /></td>-->
-                <!--            </tr>-->
-                <!--            <tr th:object="${course2X}">-->
-                <!--                <td>Type 2X:</td>-->
-                <!--                <td><input type="text" th:field="*{value}" /></td>-->
-                <!--            </tr>-->
-                <!--            <tr th:object="${course12}">-->
-                <!--                <td>Type 12:</td>-->
-                <!--                <td><input type="text" th:field="*{value}" /></td>-->
-                <!--            </tr>-->
                 <tr>
                     <td colspan="2"><button class="przyciskobstaw" type="submit">EDIT</button> </td>
                 </tr>
@@ -155,125 +118,6 @@
     <div class="both"></div>
     <div class="footer">
     </div>
-</div>
-
-<div align="left">
-    <a th:href="@{'/admin/ALL'}">BACK to start admin page</a>
-</div>
-<div align="center" style="clear:both">
-    <h1>Edit match bet</h1>
-    <br />
-    <form action="#" th:action="@{'/edit'}" method="post">
-        <table border="0" cellpadding="10">
-            <tr th:object="${match}">
-                <td>Match ID:</td>
-                <td>
-                    <input type="text" th:field="*{id}" readonly="readonly" />
-                </td>
-            </tr>
-            <tr th:object="${match}">
-                <td>Team 1 Name:</td>
-                <td><input type="text"  th:field="*{team1}" /></td>
-            </tr>
-            <tr th:object="${match}">
-                <td>Team 2 Name:</td>
-                <td><input type="text"  th:field="*{team2}" /></td>
-            </tr>
-            <tr th:object="${match}">
-                <td>League :</td>
-                <!--                <td><input type="text" th:field="*{league}" /></td>-->
-                <td><select name="league" th:field="*{league}">
-                    <option value="ANG1">ANG1</option>
-                    <option value="ESP1">ESP1</option>
-                    <option value="ITA1">ITA1</option>
-                    <option value="GER1">GER1</option>
-                    <option value="FRA1">FRA1</option>
-                    <option value="POL1">POL1</option>
-                    <option value="CL">CL</option>
-                </select ></td>
-            </tr>
-            <tr th:object="${match}">
-                <td>Score :</td>
-                <!--                <td><input type="text" th:field="*{score}" /></td>-->
-                <td><select name="score" th:field="*{score}">
-                    <option value="N/A">N/A</option>
-                    <option value="1">1</option>
-                    <option value="X">X</option>
-                    <option value="2">2</option>
-                </select ></td>
-            </tr>
-            <tr th:object="${match}">
-                <td>Date :</td>
-                <td><input type="text" th:field="*{date}" /></td>
-            </tr>
-            <tr th:object="${match}">
-                <td>Time</td>
-                <td><input type="text" th:field="*{time}" /></td>
-            </tr>
-            <tr th:object="${course}">
-                <td>Type 1:</td>
-                <td><input type="text" th:field="*{c1}" /></td>
-            </tr>
-            <tr th:object="${course}" >
-                <td>Type X:</td>
-                <td><input type="text" th:field="*{CX}" /></td>>
-            </tr>
-            <tr th:object="${course}">
-                <td>Type 2:</td>
-                <td><input type="text" th:field="*{c2}" /></td>
-            </tr>
-            <tr th:object="${course}">
-                <td>Type 1X:</td>
-                <td><input type="text" th:field="*{c1X}" /></td>
-            </tr>
-            <tr th:object="${course}">
-                <td>Type 2X:</td>
-                <td><input type="text" th:field="*{c2X}" /></td>
-            </tr>
-            <tr th:object="${course}">
-                <td>Type 12:</td>
-                <td><input type="text" th:field="*{c12}" /></td>
-            </tr>
-            <!--            ###################      READ ME           #################-->
-            <!--            Próbowałem przypisywać wartosci kursów bezpośreednio do obiektów Course (które chcialem -->
-            <!--            przekazac do kstruktora match(), ale nie wiem dlaczego thymleaf po przypisaniu 1 wartosci -->
-            <!--            kursu ustawial wszystkie inne kursy na tą samą wartość-->
-            <!--            Próbowałem tez przypisywac do zmiennej i potem w controlerze w konstruktorze match()-->
-            <!--            podstawiałem...no ale sie sypało.-->
-            <!--            Doszedłem do wniosku ze musi byc przekazana klasa z getterami setterami konstruktorem-->
-            <!--            by działać na th:field   -->
-            <!--            Dlatego własnie stworzona jest dodatkowa klasa Course która ma 6 zmiennych float-->
-            <!--            ale w razie co zostawiłem jeszcze kod pod spodem (z tych nie udanych prób-->
-            <!--            ###################      READ ME           #################-->
-<!--            <tr th:object="${course1}">-->
-<!--                <td>Type 1:</td>-->
-<!--                <td><input type="text"  th:field="*{value}" /></td>-->
-<!--            </tr>-->
-<!--            <tr th:object="${courseX}" >-->
-<!--                <td>Type X:</td>-->
-<!--                <td><input type="text" th:field="*{value}" /></td>>-->
-<!--            </tr>-->
-<!--            <tr th:object="${course2}">-->
-<!--                <td>Type 2:</td>-->
-<!--                <td><input type="text" th:field="*{value}" /></td>-->
-<!--            </tr>-->
-<!--            <tr th:object="${course1X}">-->
-<!--                <td>Type 1X:</td>-->
-<!--                <td><input type="text" th:field="*{value}" /></td>-->
-<!--            </tr>-->
-<!--            <tr th:object="${course2X}">-->
-<!--                <td>Type 2X:</td>-->
-<!--                <td><input type="text" th:field="*{value}" /></td>-->
-<!--            </tr>-->
-<!--            <tr th:object="${course12}">-->
-<!--                <td>Type 12:</td>-->
-<!--                <td><input type="text" th:field="*{value}" /></td>-->
-<!--            </tr>-->
-            <tr>
-                <td colspan="2"><button type="submit">EDIT</button> </td>
-            </tr>
-        </table>
-    </form>
 </div>
 </body>
 </html>

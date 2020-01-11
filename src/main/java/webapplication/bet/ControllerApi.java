@@ -288,36 +288,18 @@ public class ControllerApi {
         course.setC12(courses12.getValue());
         mav.addObject("match", match);
         mav.addObject("course", course);
-        mav.addObject("course1", courses1);
-        mav.addObject("courseX", coursesX);
-        mav.addObject("course2", courses2);
-        mav.addObject("course1X", courses1X);
-        mav.addObject("course2X", courses2X);
-        mav.addObject("course12", courses12);
         return mav;
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String editMatchCourse(@ModelAttribute ("match") Match match,
-                                  @ModelAttribute("course") Course course,
-                                  @ModelAttribute("course1") Courses course1,
-                                  @ModelAttribute("courseX") Courses courseX,
-                                  @ModelAttribute("course2") Courses course2,
-                                  @ModelAttribute("course1X") Courses course1X,
-                                  @ModelAttribute("course2X") Courses course2X,
-                                  @ModelAttribute("course12") Courses course12){
+                                  @ModelAttribute("course") Course course){
         coursesService.updateCurseValue(course.getC1(),coursesService.getByMatchIdAndType(match.getId(), "1").getId());
         coursesService.updateCurseValue(course.getCX(),coursesService.getByMatchIdAndType(match.getId(), "X").getId());
         coursesService.updateCurseValue(course.getC2(),coursesService.getByMatchIdAndType(match.getId(), "2").getId());
         coursesService.updateCurseValue(course.getC1X(),coursesService.getByMatchIdAndType(match.getId(), "X1").getId());
         coursesService.updateCurseValue(course.getC2X(),coursesService.getByMatchIdAndType(match.getId(), "X2").getId());
         coursesService.updateCurseValue(course.getC12(),coursesService.getByMatchIdAndType(match.getId(), "12").getId());
-//        coursesService.updateCurseValue(course1.getValue(),coursesService.getByMatchIdAndType(match.getId(), "1").getId());
-//        coursesService.updateCurseValue(courseX.getValue(),coursesService.getByMatchIdAndType(match.getId(), "X").getId());
-//        coursesService.updateCurseValue(course2.getValue(),coursesService.getByMatchIdAndType(match.getId(), "2").getId());
-//        coursesService.updateCurseValue(course1X.getValue(),coursesService.getByMatchIdAndType(match.getId(), "X1").getId());
-//        coursesService.updateCurseValue(course2X.getValue(),coursesService.getByMatchIdAndType(match.getId(), "X2").getId());
-//        coursesService.updateCurseValue(course12.getValue(),coursesService.getByMatchIdAndType(match.getId(), "12").getId());
         matchService.updateMatch(match.getId(), match.getLeague(), match.getScore(), match.getTeam1(),
                 match.getTeam2(), match.getDate(), match.getTime());
         return "redirect:/admin/ALL";
@@ -330,11 +312,6 @@ public class ControllerApi {
     }
 
     //################  LOGOWANIE & REJESTRACJA  ##################################  http://localhost:8080/hello
-    @GetMapping("/hello")
-    public  String get(Model model){
-        model.addAttribute("name", "HELLO WORLD");
-        return "hello";
-    }
 
     @GetMapping("/registration")
     public  String test(Model model){
@@ -345,7 +322,7 @@ public class ControllerApi {
     }
 
     @PostMapping("/add-user")
-    public String addCar(@ModelAttribute User user, @ModelAttribute Client client) {
+    public String addUser(@ModelAttribute User user, @ModelAttribute Client client) {
         client.setBetAccountBalance(1000);
         User newUser = new User(user.getUsername(), user.getPassword(), "ROLE_USER", client);
         userService.save(newUser);
