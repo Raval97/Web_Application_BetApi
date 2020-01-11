@@ -280,6 +280,12 @@ public class ControllerApi {
         Courses courses1X = coursesService.getByMatchIdAndType(id, "X1");
         Courses courses2X = coursesService.getByMatchIdAndType(id, "X2");
         Courses courses12 = coursesService.getByMatchIdAndType(id, "12");
+        course.setC1(courses1.getValue());
+        course.setC2(courses2.getValue());
+        course.setCX(coursesX.getValue());
+        course.setC1X(courses1X.getValue());
+        course.setC2X(courses2X.getValue());
+        course.setC12(courses12.getValue());
         mav.addObject("match", match);
         mav.addObject("course", course);
         mav.addObject("course1", courses1);
@@ -293,13 +299,25 @@ public class ControllerApi {
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String editMatchCourse(@ModelAttribute ("match") Match match,
-                                  @ModelAttribute("course") Course course){
+                                  @ModelAttribute("course") Course course,
+                                  @ModelAttribute("course1") Courses course1,
+                                  @ModelAttribute("courseX") Courses courseX,
+                                  @ModelAttribute("course2") Courses course2,
+                                  @ModelAttribute("course1X") Courses course1X,
+                                  @ModelAttribute("course2X") Courses course2X,
+                                  @ModelAttribute("course12") Courses course12){
         coursesService.updateCurseValue(course.getC1(),coursesService.getByMatchIdAndType(match.getId(), "1").getId());
         coursesService.updateCurseValue(course.getCX(),coursesService.getByMatchIdAndType(match.getId(), "X").getId());
         coursesService.updateCurseValue(course.getC2(),coursesService.getByMatchIdAndType(match.getId(), "2").getId());
         coursesService.updateCurseValue(course.getC1X(),coursesService.getByMatchIdAndType(match.getId(), "X1").getId());
         coursesService.updateCurseValue(course.getC2X(),coursesService.getByMatchIdAndType(match.getId(), "X2").getId());
         coursesService.updateCurseValue(course.getC12(),coursesService.getByMatchIdAndType(match.getId(), "12").getId());
+//        coursesService.updateCurseValue(course1.getValue(),coursesService.getByMatchIdAndType(match.getId(), "1").getId());
+//        coursesService.updateCurseValue(courseX.getValue(),coursesService.getByMatchIdAndType(match.getId(), "X").getId());
+//        coursesService.updateCurseValue(course2.getValue(),coursesService.getByMatchIdAndType(match.getId(), "2").getId());
+//        coursesService.updateCurseValue(course1X.getValue(),coursesService.getByMatchIdAndType(match.getId(), "X1").getId());
+//        coursesService.updateCurseValue(course2X.getValue(),coursesService.getByMatchIdAndType(match.getId(), "X2").getId());
+//        coursesService.updateCurseValue(course12.getValue(),coursesService.getByMatchIdAndType(match.getId(), "12").getId());
         matchService.updateMatch(match.getId(), match.getLeague(), match.getScore(), match.getTeam1(),
                 match.getTeam2(), match.getDate(), match.getTime());
         return "redirect:/admin/ALL";

@@ -6,17 +6,17 @@ body
     font-size: 17px;
 }
 
-a:visited
-{
-    color: royalblue;
-    text-decoration: none;
-}
+/*a:visited*/
+/*{*/
+/*    color: royalblue;*/
+/*    text-decoration: none;*/
+/*}*/
 
-a:hover
-{
-    color: green;
-    text-decoration: none;
-}
+/*a:hover*/
+/*{*/
+/*    color: green;*/
+/*    text-decoration: none;*/
+/*}*/
 
 #container
 {

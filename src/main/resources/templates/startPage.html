@@ -3,12 +3,124 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>WEB BET</title>
+    <title>WEB BEToniara</title>
 
     <link rel="stylesheet" href="../static/helloStyle.css" th:href="@{/helloStyle.css}">
+    <link rel="stylesheet" href="../static/main.css" th:href="@{/main.css}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
 </head >
 <body>
+<!---->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SZYBKI START Z BRACKETS</title>
+    <meta name="description" content="Interaktywny poradnik szybkiego startu dla Brackets.">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+<div class='top'>
+    <div class="container1300px">
+        <div class="logo">Logo</div>
+        <div class="oboklogo">
+            <div class="logowanie">
+                <a th:href="@{'/login'}">LOG IN</a></br>
+                <a th:href="@{'/registration'}">NEW ACCOUNT</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='container'>
+
+
+    <div class="ligi">
+        <table width="100%">
+            <tr>
+                <td class="naglowek">Menu</td>
+            </tr>
+            <tr><td><a th:href="@{'/user/ALL'}">All Leagues</a></td></tr>
+            <tr><td><a th:href="@{'/user/CL'}">Liga Mistrzów</a></td></tr>
+            <tr><td><a th:href="@{'/user/ANG1'}">Premier League</a></td></tr>
+            <tr><td><a th:href="@{'/user/ESP1'}">Primera Division</a></td></tr>
+            <tr><td><a th:href="@{'/user/GER1'}">Bundesliga</a></td></tr>
+            <tr><td><a th:href="@{'/user/ITA1'}">Seria A</a></td></tr>
+            <tr><td><a th:href="@{'/user/FRA1'}">Ligue 1</a></td></tr>
+            <tr><td><a th:href="@{'/user/POL1'}">Ekstraklasa</a></td></tr>
+        </table>
+    </div>
+
+    <div class="mecze">
+        <table class="tabelamecze" cellspacing="2px">
+            <tr>
+                <td class="naglowek" colspan="8">Matches and Courses</td>
+            </tr>
+            <tr th:each="match,iter : ${listMatch}">
+                <td width="25px">
+
+                </td>
+                <td>
+                    <span class="przeciwnicy" th:text="|${match.team1} - ${match.team2}|"></span></br>
+                    <span class="ligaczas" th:text="|${match.league} - ${match.date} ${match.time}|"></span>
+                </td>
+                <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span th:text="${match.team1}"></span></br>
+                        <b><span th:text="${listCourses.get(iter.index).value}"></span></b>
+                    </button>
+                </td>
+                <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span style="font-size: 11px;">X</span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size()*3)+iter.index).value}"></span></b>
+                    </button>                </td>
+                <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span th:text="${match.team2}"></span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size()*2)+iter.index).value}"></span></b>
+                    </button>                </td>
+                <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span style="font-size: 11px;">1X</span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size()*4)+iter.index).value}"></span></b>
+                    </button>                </td>
+                <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span style="font-size: 11px;">2X</span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size()*5)+iter.index).value}"></span></b>
+                    </button>                </td>
+                <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span style="font-size: 11px;">12</span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size())+iter.index).value}"></span></b>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="kupon">
+        <table>
+            <tr>
+                <td class="naglowek">Twój kupon</td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Zaloguj się, aby obstawić kupon!</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="both"></div>
+    <div class="footer">
+    </div>
+</div>
+
+<!---->
 <div align="right">
     <a th:href="@{'/login'}">LOG IN</a>
 </div>

@@ -6,9 +6,101 @@
     <title>User Coupons</title>
 
     <link rel="stylesheet" href="../static/helloStyle.css" th:href="@{/helloStyle.css}">
+    <link rel="stylesheet" href="../static/main.css" th:href="@{/main.css}">
+    <link rel="stylesheet" href="../static/fontello-c06bb130/css/fontello.css" th:href="@{/fontello-c06bb130/css/fontello.css}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
 </head >
 <body>
+
+
+
+
+<div class='top'>
+    <div class="container1300px">
+        <div class="logo">Logo</div>
+        <div class="oboklogo">
+            <div class="logowanie">
+                <a th:href="@{'/logout'}">LOG OUT</a></br>
+                <a th:href="@{'/client/'+${user.id}+'/ALL'}">BACK to start page</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='container'>
+
+
+    <div class="ligiUsCou">
+        <table class="tabelaUsCou" cellspacing="5px">
+            <tr>
+                <td class="naglowek" colspan="8">My Bets</td>
+            </tr>
+            <tr>
+                <th>Bet ID</th>
+                <th>Date added</th>
+                <th>Amount</th>
+                <th>Rate</th>
+                <th>State</th>
+                <th></th>
+            </tr>
+            <tbody>
+            <tr style="text-align: center;" th:each="coupon : ${couponList}">
+                <td th:text="${coupon.id}">ID</td>
+                <!--                    <td><a th:href="@{'/user/coupons/'+${user.id}+'/'+${coupon.id}}" th:text="${coupon.date.toLocalDate()}"></a></td>-->
+                <td><a th:href="@{'/client/coupons/'+${user.id}+'/'+${coupon.id}}" th:text="${coupon.date}"></a></td>
+                <td th:text="${coupon.amount}">Amount</td>
+                <td th:text="${coupon.rate}">Rate</td>
+                <td th:text="${coupon.state}">State</td>
+                <td class="of"><a th:href="@{'/client/coupons/'+${user.id}+'/'+${coupon.id}}"><i class="icon-eye"></i></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="kuponUsCou">
+        <table class="tabelaUsCou" cellspacing="5px">
+            <tr>
+                <td class="naglowek" colspan="8">My Coupon</td>
+            </tr>
+            <tr>
+                <th>Match ID</th>
+                <th>Type</th>
+                <th>Value</th>
+                <th>State</th>
+            </tr>
+            <tbody>
+            <tr th:each="match,iter : ${mathList}">
+                <td>
+                    <span class="przeciwnicy" th:text="|${match.team1} - ${match.team2}|"></span></br>
+                    <span class="ligaczas" th:text="|${match.league} - ${match.date} ${match.time}|"></span>
+                </td>
+                <td style="text-align: center;" th:text="${coursesList.get(iter.index).type}">Type</td>
+                <td style="text-align: center;" th:text="${coursesList.get(iter.index).value}">Value</td>
+                <td style="text-align: center;" th:text="${coursesList.get(iter.index).state}">State</td>
+            </tr>
+            <tr th:if="${coupon != null}">
+                <td colspan="2">total of</td>
+                <td style="text-align: center;" th:text="${coupon.rate}">Rate</td>
+                <td style="text-align: center;" th:text="${coupon.state}">State</td>
+            </tr>
+            <tr th:if="${coupon != null}">
+                <td>amount wagered</td>
+                <td colspan="3" th:text="${coupon.amount}">Amount</td>
+            </tr>
+            <tr th:if="${coupon != null}">
+                <td>Possible Win</td>
+                <td colspan="3" th:text="${coupon.possibleWin}"></td>
+            </tr>
+            <!--                </div>-->
+            </tbody>
+        </table>
+    </div>
+    <div class="both"></div>
+    <div class="footer">
+    </div>
+</div>
+
+
 <div align="left">
     <a th:href="@{'/client/'+${user.id}+'/ALL'}">BACK to start page</a>
 </div>

@@ -6,9 +6,101 @@
     <title>EDIT USER</title>
 
     <link rel="stylesheet" href="../static/helloStyle.css" th:href="@{/helloStyle.css}">
+    <link rel="stylesheet" href="../static/main.css" th:href="@{/main.css}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
 </head>
 <body>
+
+<!---->
+
+
+
+<div class='top'>
+    <div class="container1300px">
+        <div class="logo">Logo</div>
+        <div class="oboklogo">
+            <div class="logowanie">
+                <a th:href="@{'/logout'}">LOG OUT</a></br>
+                <a th:href="@{'/client/'+${client.id}+'/ALL'}">BACK to start page</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='container'>
+
+
+    <div float="left" width="200px" height="1px">
+
+    </div>
+    <div class="mecze" style="float: none; padding: 5px; margin:auto;">
+
+        <table border="0" cellpadding="10" th:object="${client}">
+            <tr>
+                <td class="naglowek" colspan="2">Your account</td>
+            </tr>
+            <tr>
+                <td>First Name:</td>
+                <td th:text="*{name}"></td>
+            </tr>
+            <tr>
+                <td>Second Name:</td>
+                <td th:text="*{surname}"></td>
+            </tr>
+            <tr>
+                <td>Date Of Birth:</td>
+                <td th:text="*{dateOfBirth}"></td>
+            </tr>
+            <tr>
+                <td>Place of resistance:</td>
+                <td th:text="*{placeOdResidence}"></td>
+            </tr>
+            <tr>
+                <td>Street:</td>
+                <td th:text="*{street}"></td>
+            </tr>
+            <tr>
+                <td>Number of Apartment:</td>
+                <td th:text="*{nrApartment}"></td>
+            </tr>
+            <tr>
+                <td>Email Address:</td>
+                <td th:text="*{email}" ></td>
+            </tr>
+            <tr>
+                <td>Number of Bank Account:</td>
+                <td th:text="*{nrOfBankAccount}"></td>
+            </tr>
+            <tr>
+                <td>Bet Account Ballance:</td>
+                <td th:text="*{betAccountBalance}"></td>
+                <td><a th:href="@{'/client/settings/'+${client.id}+'/2'}">top up your account</a></td>
+            <tr th:if="${type == 2}">
+                <td colspan="2">If you want top up your account you must make</td>
+            </tr>
+            <tr th:if="${type == 2}">
+                <td colspan="2">a transfer to the account number below :D</td>
+            </tr>
+            <tr th:if="${type == 2}">
+                <td colspan="2">1234 56789 98765 4321</td>
+            </tr>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td><a th:href="@{'/client/'+${client.id}+'/edit/1'}">EDIT YOUR DATA</a></td>
+                <td><a th:href="@{'/client/'+${client.id}+'/edit/2'}">CHANGE PASSWORD</a></td>
+            </tr>
+        </table>
+    </div>
+    <div float="left" width="200px" height="1px">
+
+    </div>
+    <div class="both"></div>
+    <div class="footer">
+    </div>
+</div>
+
+<!---->
 <div align="left">
     <a th:href="@{'/client/'+${client.id}+'/ALL'}">BACK to start page</a>
 </div>

@@ -6,9 +6,134 @@
     <title>EDIT USER</title>
 
     <link rel="stylesheet" href="../static/helloStyle.css" th:href="@{/helloStyle.css}">
+    <link rel="stylesheet" href="../static/main.css" th:href="@{/main.css}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
 </head>
 <body>
+
+
+<div class='top'>
+    <div class="container1300px">
+        <div class="logo">Logo</div>
+        <div class="oboklogo">
+            <div class="logowanie">
+                <a th:href="@{'/logout'}">LOG OUT</a></br>
+                <a th:href="@{'/client/settings/'+${user.id}+'/1'}">BACK</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class='container'>
+
+
+    <div float="left" width="200px" height="1px">
+
+    </div>
+    <div class="mecze" style="float: none; padding: 5px; margin:auto;">
+
+        <table border="0" cellpadding="10" th:if="${type == 1}">
+            <tr>
+                <td class="naglowek" colspan="2">Edit account</td>
+            </tr>
+            <form action="#" th:action="@{'/client/edit_data/'+${user.id}}" th:object="${client}" method="post">
+                <tr>
+                    <td>First Name:</td>
+                    <td><input type="text"  th:field="*{name}" /></td>
+                </tr>
+                <tr>
+                    <td>Second Name:</td>
+                    <td><input type="text"  th:field="*{surname}" /></td>
+                </tr>
+                <tr>
+                    <td>Date Of Birth:</td>
+                    <td><input type="text"  th:field="*{dateOfBirth}" /></td>
+                </tr>
+                <tr>
+                    <td>Place of resistance:</td>
+                    <td><input type="text"  th:field="*{placeOdResidence}" /></td>
+                </tr>
+                <tr>
+                    <td>Street:</td>
+                    <td><input type="text"  th:field="*{street}" /></td>
+                </tr>
+                <tr>
+                    <td>Number of Apartment:</td>
+                    <td><input type="text"  th:field="*{nrApartment}" /></td>
+                </tr>
+                <tr>
+                    <td>Email Address:</td>
+                    <td><input type="text"  th:field="*{email}" /></td>
+                </tr>
+                <tr>
+                    <td>Number of Bank Account:</td>
+                    <td><input type="text"  th:field="*{nrOfBankAccount}" /></td>
+                </tr>
+                <tr style="display: none">
+                    <td>bet Account Balance:</td>
+                    <td><input type="text"  th:field="*{betAccountBalance}" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="submit">EDIT</button> </td>
+                </tr>
+            </form>
+        </table>
+        <table border="0" cellpadding="10" th:if="${type == 2}">
+            <tr>
+                <td class="naglowek" colspan="2">Change Password</td>
+            </tr>
+            <form action="#" th:action="@{'/client/change_password/'+${user.id}}"
+                  th:object="${user}" method="post">
+                <tr>
+                    <td>Login:</td>
+                    <td><input type="text"  th:field="*{username}" readonly="readonly"/></td>
+                </tr>
+                <tr>
+                    <td>Enter Old Password:</td>
+                    <td><input type="text"  th:value="${oldPassword}" name="oldPassword"/></td>
+                </tr>
+                <tr>
+                    <td>Enter New Password:</td>
+                    <td><input type="text"  th:value="${newPassword}" name="newPassword"/></td>
+                </tr>
+                </tr>
+                <td colspan="2"><button type="submit">EDIT</button> </td>
+                </tr>
+            </form>
+        </table>
+        <table border="0" cellpadding="10" th:if="${type == 3}">
+            <tr>
+                <td class="naglowek" colspan="2">Uncorrect old password!</td>
+            </tr>
+            <form action="#" th:action="@{'/client/change_password/'+${user.id}}"
+                  th:object="${user}" method="post">
+                <tr>
+                    <td>Login:</td>
+                    <td><input type="text"  th:field="*{username}" readonly="readonly"/></td>
+                </tr>
+                <tr>
+                    <td>Enter Old Password:</td>
+                    <td><input type="text"  th:value="${oldPassword}" name="oldPassword"/></td>
+                </tr>
+                <tr>
+                    <td>Enter New Password:</td>
+                    <td><input type="text"  th:value="${newPassword}" name="newPassword"/></td>
+                </tr>
+                </tr>
+                <td colspan="2"><button type="submit">EDIT</button> </td>
+                </tr>
+            </form>
+        </table>
+    </div>
+    <div float="left" width="200px" height="1px">
+
+    </div>
+    <div class="both"></div>
+    <div class="footer">
+    </div>
+</div>
+
 <div align="left">
     <a th:href="@{'/client/settings/'+${user.id}+'/1'}">BACK</a>
 </div>
