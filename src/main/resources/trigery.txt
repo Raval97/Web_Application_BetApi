@@ -11,7 +11,7 @@ DELIMITER ;
 
 DELIMITER $$
 CREATE TRIGGER `editStateOfCoupon` AFTER UPDATE ON `coupon` FOR EACH ROW BEGIN
-Set @id=new.id;
+Set @id=new.id_user_id;
 SET @win=new.possible_win;
 SET @amount=new.amount;
 if(old.state != new.state) THEN
