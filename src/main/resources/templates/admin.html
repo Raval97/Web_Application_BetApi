@@ -6,76 +6,103 @@
     <title>Admin Manager</title>
 
     <link rel="stylesheet" href="../static/helloStyle.css" th:href="@{/helloStyle.css}">
+    <link rel="stylesheet" href="../static/main.css" th:href="@{/main.css}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
 </head >
 <body>
-    <div align="right">
-        <a th:href="@{'/logout'}">LOG OUT</a>
-    </div>
-    <div align="center" style="clear:both">
-        <h1>Bets List</h1>
-        <a href="/new">Create New match bet</a>
-    </div>
-    <br/><br/>
-    <div id="container">
-        <div id="leagues">
-            <h1>LIGI</h1>
-            <br></br>
-            <table border="1" cellpadding="10">
-                <tr><td><a th:href="@{'/admin/ALL'}">All Leagues</a></td></tr>
-                <tr><td><a th:href="@{'/admin/CL'}">Liga Mistrzów</a></td></tr>
-                <tr><td><a th:href="@{'/admin/ANG1'}">Premier League</a></td></tr>
-                <tr><td><a th:href="@{'/admin/ESP1'}">Primera Division</a></td></tr>
-                <tr><td><a th:href="@{'/admin/GER1'}">Bundesliga</a></td></tr>
-                <tr><td><a th:href="@{'/admin/ITA1'}">Seria A</a></td></tr>
-                <tr><td><a th:href="@{'/admin/FRA1'}">Ligue 1</a></td></tr>
-                <tr><td><a th:href="@{'/admin/POL1'}">Ekstraklasa</a></td></tr>
-            </table>
-        </div>
-        <div id="matchAndCourses">
-            <table border="1" cellpadding="10">
-                <thead>
-                <tr>
-                    <th>Bet ID</th>
-                    <th>League</th>
-                    <th>Team 1</th>
-                    <th>Team 2</th>
-                    <th>1</th>
-                    <th>X</th>
-                    <th>2</th>
-                    <th>1X</th>
-                    <th>2X</th>
-                    <th>12</th>
-                    <th>date</th>
-                    <th>time</th>
-                    <th>score</th>
-                    <th>......Actions......</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="match,iter : ${listMatch}">
-                    <td th:text="${match.id}">BET ID</td>
-                    <td th:text="${match.league}">League</td>
-                    <td th:text="${match.team1}">Team 1</td>
-                    <td th:text="${match.team2}">Team 2</td>
-                    <td th:text="${listCourses.get(iter.index).value}">1</td>
-                    <td th:text="${listCourses.get((listMatch.size()*3)+iter.index).value}">X</td>
-                    <td th:text="${listCourses.get((listMatch.size()*2)+iter.index).value}">2</td>
-                    <td th:text="${listCourses.get((listMatch.size()*4)+iter.index).value}">1X</td>
-                    <td th:text="${listCourses.get((listMatch.size()*5)+iter.index).value}">2X</td>
-                    <td th:text="${listCourses.get((listMatch.size())+iter.index).value}">12</td>
-                    <td th:text="${match.date}">date</td>
-                    <td th:text="${match.time}">time</td>
-                    <td th:text="${match.score}">score</td>
-                    <td>
-                        <a th:href="@{'/edit/' + ${match.id}}">Edit</a>
-                        &nbsp;&nbsp;&nbsp;
-                        <a th:href="@{'/deleteMatch/' + ${match.id}}">Delete</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+
+<div class='top'>
+    <div class="container1300px">
+        <div class="logo"><img src="../static/betoniarabeztla.png" th:src="@{/betoniarabeztla.png}"/></div>
+        <div class="oboklogo">
+            <div class="logowanie">
+                <a th:href="@{'/logout'}">LOG OUT</a></br>
+                <a href="/new">Create New match bet</a>
+            </div>
         </div>
     </div>
+</div>
+
+<div class='container'>
+
+
+    <div class="ligi">
+        <table width="100%">
+            <tr>
+                <td class="naglowek">Menu</td>
+            </tr>
+            <tr><td><a th:href="@{'/admin/ALL'}">All Leagues</a></td></tr>
+            <tr><td><a th:href="@{'/admin/CL'}">Liga Mistrzów</a></td></tr>
+            <tr><td><a th:href="@{'/admin/ANG1'}">Premier League</a></td></tr>
+            <tr><td><a th:href="@{'/admin/ESP1'}">Primera Division</a></td></tr>
+            <tr><td><a th:href="@{'/admin/GER1'}">Bundesliga</a></td></tr>
+            <tr><td><a th:href="@{'/admin/ITA1'}">Seria A</a></td></tr>
+            <tr><td><a th:href="@{'/admin/FRA1'}">Ligue 1</a></td></tr>
+            <tr><td><a th:href="@{'/admin/POL1'}">Ekstraklasa</a></td></tr>
+        </table>
+    </div>
+
+    <div class="meczeAdm">
+        <table class="tabelamecze" cellspacing="2px">
+            <tr>
+                <td class="naglowek" colspan="8">Matches and Courses</td>
+            </tr>
+            <tr th:each="match,iter : ${listMatch}">
+                <td width="25px">
+
+                </td>
+                <td>
+                    <span class="przeciwnicy" th:text="|${match.team1} - ${match.team2}|"></span></br>
+                    <span class="ligaczas" th:text="|${match.league} - ${match.date} ${match.time}|"></span>
+                </td>
+                <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span th:text="${match.team1}"></span></br>
+                        <b><span th:text="${listCourses.get(iter.index).value}"></span></b>
+                    </button>
+                </td>
+                <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span style="font-size: 11px;">X</span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size()*3)+iter.index).value}"></span></b>
+                    </button>                </td>
+                <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span th:text="${match.team2}"></span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size()*2)+iter.index).value}"></span></b>
+                    </button>                </td>
+                <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span style="font-size: 11px;">1X</span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size()*4)+iter.index).value}"></span></b>
+                    </button>                </td>
+                <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span style="font-size: 11px;">2X</span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size()*5)+iter.index).value}"></span></b>
+                    </button>                </td>
+                <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span style="font-size: 11px;">12</span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size())+iter.index).value}"></span></b>
+                    </button>
+                </td>
+                <td style="text-align: center; width: 50px;" th:text="${match.score}">
+                    score
+                </td>
+                <td style="text-align: center;">
+                    <a th:href="@{'/edit/' + ${match.id}}">Edit</a>
+                </td>
+                <td style="text-align: center;">
+                    &nbsp;&nbsp;&nbsp;
+                    <a th:href="@{'/deleteMatch/' + ${match.id}}">Delete</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="both"></div>
+    <div class="footer">
+    </div>
+</div>
 </body>
 </html>

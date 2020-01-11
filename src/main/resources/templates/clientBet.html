@@ -7,27 +7,33 @@
     <title>UserBet Platform</title>
 
     <link rel="stylesheet" href="../static/helloStyle.css" th:href="@{/helloStyle.css}">
+    <link rel="stylesheet" href="../static/main.css" th:href="@{/main.css}">
+    <link rel="stylesheet" href="../static/fontello-c06bb130/css/fontello.css" th:href="@{/fontello-c06bb130/css/fontello.css}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
 </head >
 <body>
-<div align="right">
-    <a th:href="@{'/logout'}">LOG OUT</a>
+
+<div class='top'>
+    <div class="container1300px">
+        <div class="logo"><img src="../static/betoniarabeztla.png" th:src="@{/betoniarabeztla.png}"/></div>
+        <div class="oboklogo">
+            <div class="logowanie">
+                <a th:href="@{'/logout'}">LOG OUT</a></br>
+                <a th:href="@{'/client/settings/'+${user.id}+'/1'}">MY ACCOUNT</a></br>
+                <a th:href="@{'/client/coupons/'+${user.id}+'/0'}">MY COUPONS</a>
+            </div>
+        </div>
+    </div>
 </div>
-<div align="right" style="clear:both">
-    <a th:href="@{'/client/settings/'+${user.id}+'/1'}">MY ACCOUNT</a>
-</div>
-<div align="right" style="clear:both">
-    <a th:href="@{'/client/coupons/'+${user.id}+'/0'}">MY COUPONS</a>
-</div>
-<div align="center" style="clear:both">
-    <h1>Bets List</h1>
-</div>
-<br/><br/>
-<div id="container">
-    <div id="leagues">
-        <h1>LIGI</h1>
-        <br></br>
-        <table border="1" cellpadding="10">
+
+<div class='container'>
+
+
+    <div class="ligi">
+        <table width="100%">
+            <tr>
+                <td class="naglowek">Menu</td>
+            </tr>
             <tr><td><a th:href="@{'/client/'+${user.id}+'/ALL/'+${coupon.id}}">All Leagues</a></td></tr>
             <tr><td><a th:href="@{'/client/'+${user.id}+'/CL/'+${coupon.id}}">Liga Mistrzów</a></td></tr>
             <tr><td><a th:href="@{'/client/'+${user.id}+'/ANG1/'+${coupon.id}}">Premier League</a></td></tr>
@@ -38,99 +44,114 @@
             <tr><td><a th:href="@{'/client/'+${user.id}+'/POL1/'+${coupon.id}}">Ekstraklasa</a></td></tr>
         </table>
     </div>
-    <div id="matchAndCourses">
-        <table border="1" cellpadding="10">
-            <thead>
+
+    <div class="mecze">
+        <table class="tabelamecze" cellspacing="2px">
             <tr>
-                <th>Bet ID</th>
-                <th>League</th>
-                <th>Team 1</th>
-                <th>Team 2</th>
-                <th>1</th>
-                <th>X</th>
-                <th>2</th>
-                <th>1X</th>
-                <th>2X</th>
-                <th>12</th>
-                <th>date</th>
-                <th>time</th>
+                <td class="naglowek" colspan="8">Matches and Courses</td>
             </tr>
-            </thead>
-            <tbody>
             <tr th:each="match,iter : ${listMatch}">
-                <td th:text="${match.id}">BET ID</td>
-                <td th:text="${match.league}">League</td>
-                <td th:text="${match.team1}">Team 1</td>
-                <td th:text="${match.team2}">Team 2</td>
-                <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get(iter.index).id}+'/'+${user.id}+'/ALL'}" method="post">
-                    <td><button type="submit" th:text="${listCourses.get(iter.index).value}">1</button> </td>
-                </form>
-                <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size()*3)+iter.index).id}+'/'+${user.id}+'/ALL'}" method="post">
-                    <td><button type="submit" th:text="${listCourses.get((listMatch.size()*3)+iter.index).value}">X</button> </td>
-                </form>
-                <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size()*2)+iter.index).id}+'/'+${user.id}+'/ALL'}" method="post">
-                    <td><button type="submit" th:text="${listCourses.get((listMatch.size()*2)+iter.index).value}">2</button> </td>
-                </form>
-                <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size()*4)+iter.index).id}+'/'+${user.id}+'/ALL'}" method="post">
-                    <td><button type="submit" th:text="${listCourses.get((listMatch.size()*4)+iter.index).value}">1X</button> </td>
-                </form>
-                <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size()*5)+iter.index).id}+'/'+${user.id}+'/ALL'}" method="post">
-                    <td><button type="submit" th:text="${listCourses.get((listMatch.size()*5)+iter.index).value}">2X</button> </td>
-                </form>
-                <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size())+iter.index).id}+'/'+${user.id}+'/ALL'}" method="post">
-                    <td><button type="submit" th:text="${listCourses.get((listMatch.size())+iter.index).value}">12</button> </td>
-                </form>
-                <td th:text="${match.date}">date</td>
-                <td th:text="${match.time}">time</td>
+                <td width="25px">
+
+                </td>
+                <td>
+                    <span class="przeciwnicy" th:text="|${match.team1} - ${match.team2}|"></span></br>
+                    <span class="ligaczas" th:text="|${match.league} - ${match.date} ${match.time}|"></span>
+                </td>
+            <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get(iter.index).id}+'/'+${user.id}+'/'+${league}}" method="post">
+
+            <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span th:text="${match.team1}"></span></br>
+                        <b><span th:text="${listCourses.get(iter.index).value}"></span></b>
+                    </button>
+                </td>
+            </form>
+            <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size()*3)+iter.index).id}+'/'+${user.id}+'/'+${league}}" method="post">
+            <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span style="font-size: 11px;">X</span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size()*3)+iter.index).value}"></span></b>
+                    </button>
+            </td>
+            </form>
+            <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size()*2)+iter.index).id}+'/'+${user.id}+'/'+${league}}" method="post">
+            <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span th:text="${match.team2}"></span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size()*2)+iter.index).value}"></span></b>
+                    </button>                </td>
+            </form>
+            <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size()*4)+iter.index).id}+'/'+${user.id}+'/'+${league}}" method="post">
+            <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span style="font-size: 11px;">1X</span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size()*4)+iter.index).value}"></span></b>
+                    </button>                </td>
+            </form>
+            <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size()*5)+iter.index).id}+'/'+${user.id}+'/'+${league}}" method="post">
+            <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span style="font-size: 11px;">2X</span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size()*5)+iter.index).value}"></span></b>
+                    </button>                </td>
+            </form>
+            <form action="#" th:action="@{'/add/' + ${coupon.id}+'/'+${listCourses.get((listMatch.size())+iter.index).id}+'/'+${user.id}+'/'+${league}}" method="post">
+
+            <td>
+                    <button type="submit" class="przyciskkurs">
+                        <span style="font-size: 11px;">12</span></br>
+                        <b><span th:text="${listCourses.get((listMatch.size())+iter.index).value}"></span></b>
+                    </button>
+            </td>
+            </form>
             </tr>
-            </tbody>
         </table>
     </div>
-    <div id="bet">
-        <h1>ZAKALADY</h1>
-        <table border="1" cellpadding="10">
-            <thead>
+    <div class="kupon">
+        <table width="100%">
             <tr>
-                <th>Bet ID</th>
-                <th>Match</th>
-                <th>Type</th>
-                <th>Value</th>
-                <th>Delete</th>
+                <td class="naglowek" colspan="2">Twój kupon</td>
             </tr>
-            </thead>
-            <tbody>
             <tr th:each="course,iter : ${listCoursesOnBet}">
-                <td th:text="${course.id}">ID</td>
-                <td th:text="${listMatchNamed.get(iter.index)}">Match</td>
-                <td th:text="${course.type}">Type</td>
-                <td th:text="${course.value}">Value</td>
-                <td>
-                    <a th:href="@{'/deleteBet/' + ${listCouponCourse.get(iter.index)}+'/'+${user.id}+'/'+${coupon.id}}">Delete</a>
+                <td th:text="${listMatchNamed.get(iter.index)}">
+                    <span class="przeciwnicy" th:text="|${listMatch.get(iter.index).team1} - ${listMatch.get(iter.index).team2}|"></span></br>
+                    <span class="ligaczas" th:text="|${listMatch.get(iter.index).league} - ${listMatch.get(iter.index).date} ${listMatch.get(iter.index).time}|"></span>
+                </td>
+                <td style="text-align: center;">
+                    <span style="font-size: 11px;" th:text="${course.type}">X</span></br>
+                    <b><span th:text="${course.value}"></span></b>
+<!--                    <span class="ligaczas" th:text="|${match.league} - ${match.date} ${match.time}|"></span>-->
+                </td>
+                <td style="padding:10px; text-align: right;">
+                    <a th:href="@{'/deleteBet/' + ${listCouponCourse.get(iter.index)}+'/'+${user.id}+'/'+${coupon.id}}">
+                        <span style="font-size: 20px;"><i class="icon-cancel"></i></span></br>
+                    </a>
                 </td>
             </tr>
-            </form>
             <form action="#" th:action="@{'/editAmount/'+${coupon.id}+'/'+${user.id}}" th:object="${coupon}" method="POST">
                 <tr>
                     <td colspan="2">Count</td>
-                    <td colspan="3"><input type="text" th:field="*{amount}" /></td>
+                    <td><input style="width:50px" type="text" th:field="*{amount}" /></td>
                 </tr>
                 <tr>
                     <td colspan="2">Total Rate</td>
-                    <td colspan="3" th:text="*{rate}"></td>
+                    <td th:text="*{rate}"></td>
                 </tr>
                 <tr>
-                    <td colspan="2">Possible Win</td>
-                    <td><button type="submit">Calculate</button></td>
-                    <td colspan="2" th:text="*{possibleWin}"></td>
+                    <td colspan="2"><button type="submit">Calculate</button></td>
+                    <td th:text="*{possibleWin}"></td>
                 </tr>
             </form>
             <tr>
                 <form action="#" th:action="@{'/confirmBet/'+${user.id}+'/'+${coupon.id}}" method="post">
-                    <td colspan="5"><button type="submit">CONFIRM</button></td>
+                    <td colspan="5"><button type="submit" class="przyciskobstaw">CONFIRM</button></td>
                 </form>
             </tr>
-            </tbody>
         </table>
+    </div>
+    <div class="both"></div>
+    <div class="footer">
     </div>
 </div>
 </body>

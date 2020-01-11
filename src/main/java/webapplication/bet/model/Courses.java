@@ -21,7 +21,7 @@ public class Courses {
     @JoinColumn
     private Match match;
     private String type;
-    private float value=1;
+    private float value= (float) 1.5;
     private String state;
     @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL)
     private Set<CouponCourse> couponCourses;

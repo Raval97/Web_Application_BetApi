@@ -279,14 +279,14 @@ public class ControllerApi {
         Courses courses1X = coursesService.getByMatchIdAndType(id, "X1");
         Courses courses2X = coursesService.getByMatchIdAndType(id, "X2");
         Courses courses12 = coursesService.getByMatchIdAndType(id, "12");
+        course.setC1(courses1.getValue());
+        course.setC2(courses2.getValue());
+        course.setCX(coursesX.getValue());
+        course.setC1X(courses1X.getValue());
+        course.setC2X(courses2X.getValue());
+        course.setC12(courses12.getValue());
         mav.addObject("match", match);
         mav.addObject("course", course);
-        mav.addObject("course1", courses1);
-        mav.addObject("courseX", coursesX);
-        mav.addObject("course2", courses2);
-        mav.addObject("course1X", courses1X);
-        mav.addObject("course2X", courses2X);
-        mav.addObject("course12", courses12);
         return mav;
     }
 
@@ -311,11 +311,6 @@ public class ControllerApi {
     }
 
     //################  LOGOWANIE & REJESTRACJA  ##################################  http://localhost:8080/hello
-    @GetMapping("/hello")
-    public  String get(Model model){
-        model.addAttribute("name", "HELLO WORLD");
-        return "hello";
-    }
 
     @GetMapping("/registration")
     public  String test(Model model){
@@ -326,7 +321,7 @@ public class ControllerApi {
     }
 
     @PostMapping("/add-user")
-    public String addCar(@ModelAttribute User user, @ModelAttribute Client client) {
+    public String addUser(@ModelAttribute User user, @ModelAttribute Client client) {
         client.setBetAccountBalance(1000);
         User newUser = new User(user.getUsername(), user.getPassword(), "ROLE_USER", client);
         userService.save(newUser);
