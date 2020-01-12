@@ -35,4 +35,21 @@ public interface CoursesRepository extends JpaRepository<Courses, Long> {
 
     Courses findByMatch_IdAndType(Long id, String type);
 
+    @Query(value = "SELECT c.* FROM courses c LEFT JOIN matches m ON c.match_id=m.id " +
+            "WHERE m.score = 'N/A' ORDER by c.type ASC, c.id ASC", nativeQuery = true)
+    List<Courses> findAllActualToBet();
+
+    @Query(value = "SELECT c.* FROM courses c LEFT JOIN matches m ON c.match_id=m.id " +
+            "WHERE m.score != 'N/A' ORDER by c.type ASC, c.id ASC", nativeQuery = true)
+    List<Courses> findAllFinishedBet();
+
+    @Query(value = "SELECT c.* FROM courses c LEFT JOIN matches m ON c.match_id=m.id " +
+            "WHERE m.score = 'N/A' and m.league= :league ORDER by c.type ASC, c.id ASC", nativeQuery = true)
+    List<Courses> findActualToBetByLeague(@Param("league") String league);
+
+
+    @Query(value = "SELECT c.* FROM courses c LEFT JOIN matches m ON c.match_id=m.id " +
+            "WHERE m.score != 'N/A' and m.league= :league ORDER by c.type ASC, c.id ASC", nativeQuery = true)
+    List<Courses> findFinishedBetByLeague(@Param("league") String league);
+
 }

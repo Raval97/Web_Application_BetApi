@@ -33,6 +33,22 @@ public class CoursesService {
     }
 
 
+    public List<Courses> listAllActualToBet() {
+        return repo.findAllActualToBet();
+    }
+
+    public List<Courses> listAllFinishedBet() {
+        return repo.findAllFinishedBet();
+    }
+
+    public List<Courses> listActualToBetByLeague(String league) {
+        return repo.findActualToBetByLeague(league);
+    }
+
+    public List<Courses> listFinishedBetByLeague(String league) {
+        return repo.findFinishedBetByLeague(league);
+    }
+
     public List<Courses> listAllByMatchLeague(String league){
         return repo.findAllByMatch_LeagueOrderByTypeAscIdAsc(league);
     }

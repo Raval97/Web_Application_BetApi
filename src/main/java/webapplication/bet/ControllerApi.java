@@ -40,17 +40,36 @@ public class ControllerApi {
     }
 
     //############## START USER ##########################################   http://localhost:8080/user/ALL
-    @RequestMapping("/user/{league}")
-    public String viewStartPage(@PathVariable(name = "league") String leagues, Model model) {
+    @RequestMapping("/user/{league}/{type}")
+    public String viewStartPage(@PathVariable(name = "league") String leagues,
+                                @PathVariable(name = "type") String type, Model model) {
         List<Match> listMatch;
         List<Courses> listCourses;
-        if(leagues.equals("ALL")) {
-            listMatch = matchService.listAll();
-            listCourses = coursesService.listAll();
+//        if(leagues.equals("ALL")) {
+//            listMatch = matchService.listAll();
+//            listCourses = coursesService.listAll();
+//        }
+//        else {
+//            listMatch = matchService.listAllByLeague(leagues);
+//            listCourses = coursesService.listAllByMatchLeague(leagues);
+//        }
+        if(type.equals("ended")) {
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllFinishedBet();
+                listCourses = coursesService.listAllFinishedBet();
+            } else {
+                listMatch = matchService.listFinishedBetByLeague(leagues);
+                listCourses = coursesService.listFinishedBetByLeague(leagues);
+            }
         }
         else {
-            listMatch = matchService.listAllByLeague(leagues);
-            listCourses = coursesService.listAllByMatchLeague(leagues);
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllActualToBet();
+                listCourses = coursesService.listAllActualToBet();
+            } else {
+                listMatch = matchService.listActualToBetByLeague(leagues);
+                listCourses = coursesService.listActualToBetByLeague(leagues);
+            }
         }
         model.addAttribute("listMatch", listMatch);
         model.addAttribute("listCourses", listCourses);
@@ -58,19 +77,38 @@ public class ControllerApi {
     }
 
     //############## START USER ##########################################   http://localhost:8080/user/1/ALL
-    @RequestMapping("/client/{user}/{league}")
+    @RequestMapping("/client/{user}/{league}/{type}")
     public String viewPageUserByLeagues(@PathVariable(name = "league") String leagues,
-                                        @PathVariable(name = "user") Long user_id, Model model) {
+                                        @PathVariable(name = "user") Long user_id,
+                                        @PathVariable(name = "type") String type, Model model) {
         User user = userService.get(user_id);
         List<Match> listMatch;
         List<Courses> listCourses;
-        if(leagues.equals("ALL")) {
-            listMatch = matchService.listAll();
-            listCourses = coursesService.listAll();
+//        if(leagues.equals("ALL")) {
+//            listMatch = matchService.listAll();
+//            listCourses = coursesService.listAll();
+//        }
+//        else {
+//            listMatch = matchService.listAllByLeague(leagues);
+//            listCourses = coursesService.listAllByMatchLeague(leagues);
+//        }
+        if(type.equals("ended")) {
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllFinishedBet();
+                listCourses = coursesService.listAllFinishedBet();
+            } else {
+                listMatch = matchService.listFinishedBetByLeague(leagues);
+                listCourses = coursesService.listFinishedBetByLeague(leagues);
+            }
         }
         else {
-            listMatch = matchService.listAllByLeague(leagues);
-            listCourses = coursesService.listAllByMatchLeague(leagues);
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllActualToBet();
+                listCourses = coursesService.listAllActualToBet();
+            } else {
+                listMatch = matchService.listActualToBetByLeague(leagues);
+                listCourses = coursesService.listActualToBetByLeague(leagues);
+            }
         }
         model.addAttribute("user", user);
         model.addAttribute("listMatch", listMatch);
@@ -83,24 +121,43 @@ public class ControllerApi {
         System.out.println("Nowy zakład");
         couponService.newCoupon(user_id);
         int couponId=couponService.getLatsCouponId();
-        return "redirect:/client/"+user_id+"/ALL/"+couponId;
+        return "redirect:/client/"+user_id+"/ALL/actual/"+couponId;
     }
 
     //################## START BET USER ########################################  http://localhost:8080/user/1/ALL/1
-    @RequestMapping("/client/{user}/{league}/{coupon}")
+    @RequestMapping("/client/{user}/{league}/{type}/{coupon}")
     public String viewPageUserByLeagues(@PathVariable(name = "league") String leagues,
                                         @PathVariable(name = "user") Long user_id,
-                                        @PathVariable(name = "coupon") Long coupon_id, Model model) {
+                                        @PathVariable(name = "coupon") Long coupon_id,
+                                        @PathVariable(name = "type") String type, Model model) {
         User user = userService.get(user_id);
         List<Match> listMatch;
         List<Courses> listCourses;
-        if(leagues.equals("ALL")) {
-            listMatch = matchService.listAll();
-            listCourses = coursesService.listAll();
+//        if(leagues.equals("ALL")) {
+//            listMatch = matchService.listAll();
+//            listCourses = coursesService.listAll();
+//        }
+//        else {
+//            listMatch = matchService.listAllByLeague(leagues);
+//            listCourses = coursesService.listAllByMatchLeague(leagues);
+//        }
+        if(type.equals("ended")) {
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllFinishedBet();
+                listCourses = coursesService.listAllFinishedBet();
+            } else {
+                listMatch = matchService.listFinishedBetByLeague(leagues);
+                listCourses = coursesService.listFinishedBetByLeague(leagues);
+            }
         }
         else {
-            listMatch = matchService.listAllByLeague(leagues);
-            listCourses = coursesService.listAllByMatchLeague(leagues);
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllActualToBet();
+                listCourses = coursesService.listAllActualToBet();
+            } else {
+                listMatch = matchService.listActualToBetByLeague(leagues);
+                listCourses = coursesService.listActualToBetByLeague(leagues);
+            }
         }
         List<String> listMatchNamed = matchService.listAllMatchNamed(user_id, coupon_id);
 //        Coupon coupon = couponService.get(coupon_id);
@@ -119,42 +176,44 @@ public class ControllerApi {
 
     @RequestMapping(value="/add/{idCoupon}/{idCourse}/{user}/{league}", method = RequestMethod.POST)
     public String addBetToCoupon(@PathVariable(name = "idCoupon") Long idCoupon, @PathVariable(name = "idCourse") Long idCourse,
-                                 @PathVariable(name = "league") String league, @PathVariable(name = "user") Long user_id,
-                                 Model model) {
+                                 @PathVariable(name = "league") String league, @PathVariable(name = "user") Long user_id) {
         if(couponCourseService.checkIfMatchIsInCoupon(matchService.getIdByCourseId(idCourse), idCoupon))
             couponCourseService.saveNewCouponCourse(idCoupon, idCourse);
         else
             System.out.println("Mecz jest juz na kuponie i nie mozna go ponownie obstawic");
-        return "redirect:/client/"+user_id+"/"+league+"/"+idCoupon;
+        return "redirect:/client/"+user_id+"/"+league+"/actual/"+idCoupon;
     }
 
-    @RequestMapping(value = "/editAmount/{idCoupon}/{user}", method = RequestMethod.POST)
+    @RequestMapping(value = "/editAmount/{idCoupon}/{user}/{type}", method = RequestMethod.POST)
     public String updateAmountOFCoupon(@ModelAttribute Coupon coupon,
                                        @PathVariable("idCoupon") Long idCoupon,
-                                       @PathVariable(name = "user") Long user_id){
+                                       @PathVariable(name = "user") Long user_id,
+                                       @PathVariable(name = "type") String type){
         couponService.updateAmount(coupon.getAmount(), idCoupon);
-        return "redirect:/client/"+user_id+"/ALL/"+idCoupon;
+        return "redirect:/client/"+user_id+"/ALL/"+type+'/'+idCoupon;
     }
 
-    @RequestMapping("/deleteBet/{id}/{user}/{coupon}")
+    @RequestMapping("/deleteBet/{id}/{user}/{coupon}/{type}")
     public String deleteBetFromCoupon(@PathVariable(name = "id") int id,
                                       @PathVariable(name = "user") Long user_id,
-                                      @PathVariable(name = "coupon") Long coupon_id) {
+                                      @PathVariable(name = "coupon") Long coupon_id,
+                                      @PathVariable(name = "type") String type) {
         couponCourseService.delete(id);
-        return "redirect:/client/"+user_id+"/ALL/"+coupon_id;
+        return "redirect:/client/"+user_id+"/ALL/"+type+'/'+coupon_id;
     }
 
-    @RequestMapping("/confirmBet/{user}/{coupon}")
+    @RequestMapping("/confirmBet/{user}/{coupon}/{type}")
     public String confirmBetsInCoupon(@PathVariable(name = "user") Long user_id,
-                                      @PathVariable(name = "coupon") Long coupon_id) {
+                                      @PathVariable(name = "coupon") Long coupon_id,
+                                      @PathVariable(name = "type") String type) {
         if(couponService.checkAvailabilityMoney(coupon_id)) {
             System.out.println("\n\nZakład potwierdzony\n\n");
             couponService.updateDate(coupon_id);
-            return "redirect:/client/" + user_id + "/ALL";
+            return "redirect:/client/" + user_id + "/ALL/"+type;
         }
         else {
             System.out.println("\n\nNie wystarczajaca ilosc srodkow na koncie\n\n");
-            return "redirect:/client/" + user_id + "/ALL/"+coupon_id;
+            return "redirect:/client/" + user_id + "/ALL/"+type+'/'+coupon_id;
         }
     }
 

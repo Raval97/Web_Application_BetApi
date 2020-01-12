@@ -41,4 +41,19 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     void updateMatch(@Param("id") Long id, @Param("league") String league, @Param("score") String score,
                      @Param("team1") String team1, @Param("team2") String team2,
                      @Param("date") LocalDate date, @Param("time") LocalTime time);
+
+    @Query(value = "SELECT m.* FROM matches m WHERE m.score = 'N/A'", nativeQuery = true)
+    List<Match> findAllActualToBet();
+
+
+    @Query(value = "SELECT m.* FROM matches m WHERE m.score != 'N/A'", nativeQuery = true)
+    List<Match> findAllFinishedBet();
+
+
+    @Query(value = "SELECT m.* FROM matches m WHERE m.score = 'N/A' and m.league= :league", nativeQuery = true)
+    List<Match> findActualToBetByLeague(@Param("league") String league);
+
+
+    @Query(value = "SELECT m.* FROM matches m WHERE m.score != 'N/A'  and m.league= :league", nativeQuery = true)
+    List<Match> findFinishedBetByLeague(@Param("league") String league);
 }

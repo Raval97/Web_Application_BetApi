@@ -1,5 +1,5 @@
-drop database if exist betwebapplication
-create database betwebapplication
+drop database if exists betwebapplication;
+create database betwebapplication;
 
 
 -- phpMyAdmin SQL Dump
