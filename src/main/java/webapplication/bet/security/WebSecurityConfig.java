@@ -1,22 +1,22 @@
 package webapplication.bet.security;
 
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.boot.context.event.ApplicationReadyEvent;
-        import org.springframework.context.annotation.Bean;
-        import org.springframework.context.annotation.Configuration;
-        import org.springframework.context.event.EventListener;
-        import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-        import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-        import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-        import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-        import org.springframework.security.crypto.password.PasswordEncoder;
-        import webapplication.bet.model.Client;
-        import webapplication.bet.model.User;
-        import webapplication.bet.repo.ClientRepository;
-        import webapplication.bet.repo.UserRepository;
-        import webapplication.bet.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import webapplication.bet.model.Client;
+import webapplication.bet.model.User;
+import webapplication.bet.repo.ClientRepository;
+import webapplication.bet.repo.UserRepository;
+import webapplication.bet.service.UserService;
 
-        import java.time.LocalDate;
+import java.time.LocalDate;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -40,10 +40,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/test1").hasRole("USER")
-                .antMatchers("/test2").hasRole("ADMIN")
+//                .antMatchers("/client/All/actual").hasRole("USER")
+                .antMatchers("/client/**").hasRole("USER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
-                .formLogin().permitAll();
+                .formLogin().permitAll().defaultSuccessUrl("/default", true)
+                .and()
+                .logout()
+                .logoutSuccessUrl("/user/ALL/actual")
+                .permitAll();
     }
 
     @Bean

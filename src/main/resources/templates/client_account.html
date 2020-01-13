@@ -17,7 +17,7 @@
         <div class="oboklogo">
             <div class="logowanie">
                 <a th:href="@{'/logout'}">LOG OUT</a></br>
-                <a th:href="@{'/client/'+${client.id}+'/ALL/actual'}">BACK to start page</a>
+                <a th:href="@{'/client/ALL/actual'}">BACK to start page</a>
             </div>
         </div>
     </div>
@@ -70,7 +70,7 @@
             <tr>
                 <td>Bet Account Ballance:</td>
                 <td th:text="*{betAccountBalance}"></td>
-                <td><a th:href="@{'/client/settings/'+${client.id}+'/2'}">top up your account</a></td>
+                <td><a th:href="@{'/client/settings/2'}">top up your account</a></td>
             <tr th:if="${type == 2}">
                 <td colspan="2">If you want top up your account you must make</td>
             </tr>
@@ -83,8 +83,8 @@
             </tr>
             <tr></tr>
             <tr>
-                <td><a th:href="@{'/client/'+${client.id}+'/edit/1'}">EDIT YOUR DATA</a></td>
-                <td><a th:href="@{'/client/'+${client.id}+'/edit/2'}">CHANGE PASSWORD</a></td>
+                <td><a th:href="@{'/client/edit/1'}">EDIT YOUR DATA</a></td>
+                <td><a th:href="@{'/client/edit/2'}">CHANGE PASSWORD</a></td>
             </tr>
         </table>
     </div>

@@ -17,8 +17,8 @@
         <div class="oboklogo">
             <div class="logowanie">
                 <a th:href="@{'/logout'}">LOG OUT</a></br>
-                <a th:href="@{'/client/settings/'+${user.id}+'/1'}">MY ACCOUNT</a></br>
-                <a th:href="@{'/client/coupons/'+${user.id}+'/0'}">MY COUPONS</a>
+                <a th:href="@{'/client/settings/1'}">MY ACCOUNT</a></br>
+                <a th:href="@{'/client/coupons/0'}">MY COUPONS</a>
             </div>
         </div>
     </div>
@@ -32,14 +32,14 @@
             <tr>
                 <td class="naglowek">Menu</td>
             </tr>
-            <tr><td><a th:href="@{'/client/'+${user.id}+'/ALL/'+${type}}">All Leagues</a></td></tr>
-            <tr><td><a th:href="@{'/client/'+${user.id}+'/CL/'+${type}}">Liga Mistrzów</a></td></tr>
-            <tr><td><a th:href="@{'/client/'+${user.id}+'/ANG1/'+${type}}">Premier League</a></td></tr>
-            <tr><td><a th:href="@{'/client/'+${user.id}+'/ESP1/'+${type}}">Primera Division</a></td></tr>
-            <tr><td><a th:href="@{'/client/'+${user.id}+'/GER1/'+${type}}">Bundesliga</a></td></tr>
-            <tr><td><a th:href="@{'/client/'+${user.id}+'/ITA1/'+${type}}">Seria A</a></td></tr>
-            <tr><td><a th:href="@{'/client/'+${user.id}+'/FRA1/'+${type}}">Ligue 1</a></td></tr>
-            <tr><td><a th:href="@{'/client/'+${user.id}+'/POL1/'+${type}}">Ekstraklasa</a></td></tr>
+            <tr><td><a th:href="@{'/client/ALL/'+${type}}">All Leagues</a></td></tr>
+            <tr><td><a th:href="@{'/client/CL/'+${type}}">Liga Mistrzów</a></td></tr>
+            <tr><td><a th:href="@{'/client/ANG1/'+${type}}">Premier League</a></td></tr>
+            <tr><td><a th:href="@{'/client/ESP1/'+${type}}">Primera Division</a></td></tr>
+            <tr><td><a th:href="@{'/client/GER1/'+${type}}">Bundesliga</a></td></tr>
+            <tr><td><a th:href="@{'/client/ITA1/'+${type}}">Seria A</a></td></tr>
+            <tr><td><a th:href="@{'/client/FRA1/'+${type}}">Ligue 1</a></td></tr>
+            <tr><td><a th:href="@{'/client/POL1/'+${type}}">Ekstraklasa</a></td></tr>
         </table>
     </div>
 
@@ -47,7 +47,7 @@
         <table class="tabelamecze" cellspacing="2px" th:if="${type == 'actual'}">
             <tr>
                 <td class="naglowek" colspan="6">Matches and Courses</td>
-                <td class="naglowek" colspan="2"><a th:href="@{'/client/'+${user.id}+'/'+${league}+'/ended'}">Ended</a></td>
+                <td class="naglowek" colspan="2"><a th:href="@{'/client/'+${league}+'/ended'}">Ended</a></td>
             </tr>
             <tr th:each="match,iter : ${listMatch}">
                 <td width="25px">
@@ -98,7 +98,7 @@
         <table class="tabelamecze" cellspacing="2px" th:if="${type == 'ended'}">
             <tr>
                 <td class="naglowek" colspan="7">Matches and Courses</td>
-                <td class="naglowek" colspan="2"><a th:href="@{'/client/'+${user.id}+'/ALL/actual'}">Actual</a></td>
+                <td class="naglowek" colspan="2"><a th:href="@{'/client/ALL/actual'}">Actual</a></td>
             </tr>
             <tr>
                 <td class="naglowek" colspan="8"></td>
