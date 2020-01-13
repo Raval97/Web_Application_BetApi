@@ -36,4 +36,12 @@ public class ClientService {
         repo.deleteById(id);
     }
 
+    public float getAmountByIdClient(Long id){
+        return repo.findAmountByIdClient(id);
+    }
+
+    public void updateAmountOfClient(float price, Long id){
+        repo.updateAmountOfClient(price, id);
+    }
+
 }

@@ -5,8 +5,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.service.spi.InjectService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -106,5 +109,18 @@ public class User implements UserDetails {
     @InjectService
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    public static String getUserName() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        String userName = null;
+        if (authentication != null) {
+
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userName = userDetails.getUsername();
+
+        }
+        return userName;
     }
 }

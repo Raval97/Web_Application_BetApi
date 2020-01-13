@@ -40,24 +40,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/test1").hasRole("USER")
-                .antMatchers("/test2").hasRole("ADMIN")
+//                .antMatchers("/client/All/actual").hasRole("USER")
+                .antMatchers("/client/**").hasRole("USER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
-                .formLogin().permitAll();
+                .formLogin().permitAll().defaultSuccessUrl("/default", true)
+                .and()
+                .logout()
+                .logoutSuccessUrl("/user/ALL/actual")
+                .permitAll();
     }
 
     @Bean
     public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-//
+
 //    @EventListener(ApplicationReadyEvent.class)
 //    public void get() {
 //        Client client = new Client("Adam", "Malysz", "Wisla", "Krakowska", 99,
 //                LocalDate.of(1980,01,01), "malysz@gmail.com", "1234", 1000);
-//        User appUserUser = new User("User1", passwordEncoder().encode("User1"), "ROLE_USER", client);
+//        Client client2 = new Client("Robert", "Kubica", "Krakow", "Warszzawska", 24,
+//                LocalDate.of(1985,04,04), "mkubica@gmail.com", "5678", 1000);
+//        User appUserClient1 = new User("User1", passwordEncoder().encode("User1"), "ROLE_USER", client);
+//        User appUserClient2 = new User("User2", passwordEncoder().encode("User2"), "ROLE_USER", client2);
 //        User appUserAdmin = new User("Admin", passwordEncoder().encode("Admin"), "ROLE_ADMIN");
-//        userRepository.save(appUserUser);
+//        userRepository.save(appUserClient1);
+//        userRepository.save(appUserClient2);
 //        userRepository.save(appUserAdmin);
 //    }
 }

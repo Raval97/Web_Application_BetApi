@@ -17,4 +17,11 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query(value = "SELECT * FROM client c WHERE c.user_id= :id", nativeQuery = true)
     Client findByIdClient(@Param("id") Long id);
 
+    @Query(value = "SELECT c.bet_account_balance FROM client c WHERE c.user_id= :id", nativeQuery = true)
+    float findAmountByIdClient(@Param("id") Long id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE client SET client.bet_account_balance = :price WHERE client.user_id= :id", nativeQuery = true)
+    void updateAmountOfClient(@Param("price") float price, @Param("id") Long id);
 }

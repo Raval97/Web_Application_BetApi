@@ -16,7 +16,7 @@
         <div class="logo"><img src="../static/betoniarabeztla.png" th:src="@{/betoniarabeztla.png}"/></div>
         <div class="oboklogo">
             <div class="logowanie">
-                <a th:href="@{'/admin/ALL'}">BACK to start admin page</a>
+                <a th:href="@{'/admin/ALL/actual'}">BACK to start admin page</a>
             </div>
         </div>
     </div>
@@ -47,7 +47,6 @@
                 </tr>
                 <tr th:object="${match}">
                     <td>League :</td>
-                    <!--                <td><input type="text" th:field="*{league}" /></td>-->
                     <td><select name="league" th:field="*{league}">
                         <option value="ANG1">ANG1</option>
                         <option value="ESP1">ESP1</option>

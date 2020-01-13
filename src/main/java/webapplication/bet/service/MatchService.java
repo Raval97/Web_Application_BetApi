@@ -35,6 +35,22 @@ public class MatchService {
     }
 
 
+    public List<Match> listAllActualToBet() {
+        return repo.findAllActualToBet();
+    }
+
+    public List<Match> listAllFinishedBet() {
+        return repo.findAllFinishedBet();
+    }
+
+    public List<Match> listActualToBetByLeague(String league) {
+        return repo.findActualToBetByLeague(league);
+    }
+
+    public List<Match> listFinishedBetByLeague(String league) {
+        return repo.findFinishedBetByLeague(league);
+    }
+
     public List<Match> listAllByLeague(String league){
         return  repo.findByLeague(league);
     }

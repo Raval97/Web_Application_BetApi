@@ -6,11 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import webapplication.bet.model.*;
+import webapplication.bet.security.WebSecurityConfig;
 import webapplication.bet.service.*;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -38,38 +41,66 @@ public class ControllerApi {
     public ControllerApi() {
     }
 
-    //############## START USER ##########################################   http://localhost:8080/user/ALL
-    @RequestMapping("/user/{league}")
-    public String viewStartPage(@PathVariable(name = "league") String leagues, Model model) {
+    @RequestMapping("/default")
+    public String defaultAfterLogin(HttpServletRequest request) {
+        if (request.isUserInRole("ADMIN")) {
+            return "redirect:/admin/ALL/actual";
+        }
+        return "redirect:/client/ALL/actual";
+    }
+
+    //############## START USER ##########################################
+    @RequestMapping("/user/{league}/{type}")
+    public String viewStartPage(@PathVariable(name = "league") String leagues,
+                                @PathVariable(name = "type") String type, Model model) {
         List<Match> listMatch;
         List<Courses> listCourses;
-        if(leagues.equals("ALL")) {
-            listMatch = matchService.listAll();
-            listCourses = coursesService.listAll();
+        if(type.equals("ended")) {
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllFinishedBet();
+                listCourses = coursesService.listAllFinishedBet();
+            } else {
+                listMatch = matchService.listFinishedBetByLeague(leagues);
+                listCourses = coursesService.listFinishedBetByLeague(leagues);
+            }
         }
         else {
-            listMatch = matchService.listAllByLeague(leagues);
-            listCourses = coursesService.listAllByMatchLeague(leagues);
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllActualToBet();
+                listCourses = coursesService.listAllActualToBet();
+            } else {
+                listMatch = matchService.listActualToBetByLeague(leagues);
+                listCourses = coursesService.listActualToBetByLeague(leagues);
+            }
         }
         model.addAttribute("listMatch", listMatch);
         model.addAttribute("listCourses", listCourses);
         return "startPage";
     }
-
-    //############## START USER ##########################################   http://localhost:8080/user/1/ALL
-    @RequestMapping("/client/{user}/{league}")
+    //############## START USER ##########################################
+    @RequestMapping("/client/{league}/{type}")
     public String viewPageUserByLeagues(@PathVariable(name = "league") String leagues,
-                                        @PathVariable(name = "user") Long user_id, Model model) {
-        User user = userService.get(user_id);
+                                        @PathVariable(name = "type") String type, Model model) {
+        User user = userService.findUserByUsername(User.getUserName());
         List<Match> listMatch;
         List<Courses> listCourses;
-        if(leagues.equals("ALL")) {
-            listMatch = matchService.listAll();
-            listCourses = coursesService.listAll();
+        if(type.equals("ended")) {
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllFinishedBet();
+                listCourses = coursesService.listAllFinishedBet();
+            } else {
+                listMatch = matchService.listFinishedBetByLeague(leagues);
+                listCourses = coursesService.listFinishedBetByLeague(leagues);
+            }
         }
         else {
-            listMatch = matchService.listAllByLeague(leagues);
-            listCourses = coursesService.listAllByMatchLeague(leagues);
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllActualToBet();
+                listCourses = coursesService.listAllActualToBet();
+            } else {
+                listMatch = matchService.listActualToBetByLeague(leagues);
+                listCourses = coursesService.listActualToBetByLeague(leagues);
+            }
         }
         model.addAttribute("user", user);
         model.addAttribute("listMatch", listMatch);
@@ -77,35 +108,44 @@ public class ControllerApi {
         return "client";
     }
 
-    @RequestMapping("/newBet/{user}")
+     @RequestMapping("/newBet/{user}")
     public String newBet(@PathVariable(name = "user") Long user_id) {
-        System.out.println("Nowy zakład");
         couponService.newCoupon(user_id);
         int couponId=couponService.getLatsCouponId();
-        return "redirect:/client/"+user_id+"/ALL/"+couponId;
+        return "redirect:/client/ALL/actual/"+couponId+"/0";
     }
 
-    //################## START BET USER ########################################  http://localhost:8080/user/1/ALL/1
-    @RequestMapping("/client/{user}/{league}/{coupon}")
+    //################## START BET USER ########################################
+    @RequestMapping("/client/{league}/{type}/{coupon}/{alert}")
     public String viewPageUserByLeagues(@PathVariable(name = "league") String leagues,
-                                        @PathVariable(name = "user") Long user_id,
-                                        @PathVariable(name = "coupon") Long coupon_id, Model model) {
-        User user = userService.get(user_id);
+                                        @PathVariable(name = "coupon") Long coupon_id,
+                                        @PathVariable(name = "type") String type,
+                                        @PathVariable(name = "alert") int alert, Model model) {
+        User user = userService.findUserByUsername(User.getUserName());
         List<Match> listMatch;
         List<Courses> listCourses;
-        if(leagues.equals("ALL")) {
-            listMatch = matchService.listAll();
-            listCourses = coursesService.listAll();
+        if(type.equals("ended")) {
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllFinishedBet();
+                listCourses = coursesService.listAllFinishedBet();
+            } else {
+                listMatch = matchService.listFinishedBetByLeague(leagues);
+                listCourses = coursesService.listFinishedBetByLeague(leagues);
+            }
         }
         else {
-            listMatch = matchService.listAllByLeague(leagues);
-            listCourses = coursesService.listAllByMatchLeague(leagues);
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllActualToBet();
+                listCourses = coursesService.listAllActualToBet();
+            } else {
+                listMatch = matchService.listActualToBetByLeague(leagues);
+                listCourses = coursesService.listActualToBetByLeague(leagues);
+            }
         }
-        List<String> listMatchNamed = matchService.listAllMatchNamed(user_id, coupon_id);
-//        Coupon coupon = couponService.get(coupon_id);
+        List<String> listMatchNamed = matchService.listAllMatchNamed(user.getId(), coupon_id);
         Coupon coupon = couponService.get(coupon_id);
-        List<Courses> listCoursesOnBet = coursesService.listAllByUserIdInCoupon(user_id, coupon_id);
-        List<Long> listCouponCourse = couponCourseService.listAllIdByUserIdInCoupon(user_id, coupon_id);
+        List<Courses> listCoursesOnBet = coursesService.listAllByUserIdInCoupon(user.getId(), coupon_id);
+        List<Long> listCouponCourse = couponCourseService.listAllIdByUserIdInCoupon(user.getId(), coupon_id);
         model.addAttribute("user", user);
         model.addAttribute("listMatch", listMatch);
         model.addAttribute("listCourses", listCourses);
@@ -113,65 +153,71 @@ public class ControllerApi {
         model.addAttribute("listMatchNamed", listMatchNamed);
         model.addAttribute("listCoursesOnBet", listCoursesOnBet);
         model.addAttribute("listCouponCourse", listCouponCourse);
+        model.addAttribute("alert", alert);
         return "clientBet";
     }
 
-    @RequestMapping(value="/add/{idCoupon}/{idCourse}/{user}/{league}", method = RequestMethod.POST)
+    @RequestMapping(value="/add/{idCoupon}/{idCourse}/{league}", method = RequestMethod.POST)
     public String addBetToCoupon(@PathVariable(name = "idCoupon") Long idCoupon, @PathVariable(name = "idCourse") Long idCourse,
-                                 @PathVariable(name = "league") String league, @PathVariable(name = "user") Long user_id,
-                                 Model model) {
-        if(couponCourseService.checkIfMatchIsInCoupon(matchService.getIdByCourseId(idCourse), idCoupon))
+                                 @PathVariable(name = "league") String league) {
+        if(couponCourseService.checkIfMatchIsInCoupon(matchService.getIdByCourseId(idCourse), idCoupon)) {
             couponCourseService.saveNewCouponCourse(idCoupon, idCourse);
-        else
+            return "redirect:/client/" + league + "/actual/" + idCoupon + "/0";
+        }
+        else {
             System.out.println("Mecz jest juz na kuponie i nie mozna go ponownie obstawic");
-        return "redirect:/client/"+user_id+"/"+league+"/"+idCoupon;
+            return "redirect:/client/" + league + "/actual/" + idCoupon + "/1";
+        }
     }
 
-    @RequestMapping(value = "/editAmount/{idCoupon}/{user}", method = RequestMethod.POST)
+    @RequestMapping(value = "/editAmount/{idCoupon}/{league}/{type}", method = RequestMethod.POST)
     public String updateAmountOFCoupon(@ModelAttribute Coupon coupon,
                                        @PathVariable("idCoupon") Long idCoupon,
-                                       @PathVariable(name = "user") Long user_id){
+                                       @PathVariable(name = "league") String league,
+                                       @PathVariable(name = "type") String type){
         couponService.updateAmount(coupon.getAmount(), idCoupon);
-        return "redirect:/client/"+user_id+"/ALL/"+idCoupon;
+        return "redirect:/client/"+league+"/"+type+'/'+idCoupon+"/0";
     }
 
-    @RequestMapping("/deleteBet/{id}/{user}/{coupon}")
+    @RequestMapping("/deleteBet/{id}/{league}/{coupon}/{type}")
     public String deleteBetFromCoupon(@PathVariable(name = "id") int id,
-                                      @PathVariable(name = "user") Long user_id,
-                                      @PathVariable(name = "coupon") Long coupon_id) {
+                                      @PathVariable(name = "league") String league,
+                                      @PathVariable(name = "coupon") Long coupon_id,
+                                      @PathVariable(name = "type") String type) {
         couponCourseService.delete(id);
-        return "redirect:/client/"+user_id+"/ALL/"+coupon_id;
+        return "redirect:/client/"+league+"/"+type+'/'+coupon_id+"/0";
     }
 
-    @RequestMapping("/confirmBet/{user}/{coupon}")
-    public String confirmBetsInCoupon(@PathVariable(name = "user") Long user_id,
-                                      @PathVariable(name = "coupon") Long coupon_id) {
+    @RequestMapping("/confirmBet/{league}/{coupon}/{type}")
+    public String confirmBetsInCoupon(@PathVariable(name = "league") String league,
+                                      @PathVariable(name = "coupon") Long coupon_id,
+                                      @PathVariable(name = "type") String type) {
         if(couponService.checkAvailabilityMoney(coupon_id)) {
             System.out.println("\n\nZakład potwierdzony\n\n");
             couponService.updateDate(coupon_id);
-            return "redirect:/client/" + user_id + "/ALL";
+            return "redirect:/client/" + league + "/"+type;
         }
         else {
             System.out.println("\n\nNie wystarczajaca ilosc srodkow na koncie\n\n");
-            return "redirect:/client/" + user_id + "/ALL/"+coupon_id;
+            return "redirect:/client/" + league + "/"+type+'/'+coupon_id+"/2";
         }
     }
 
-    //############## USER ACCOUNT ##########################################   http://localhost:8080/user/settings/1
-    @RequestMapping("/client/settings/{user}/{type}")
-    public String viewPageUserSettings(@PathVariable(name = "user") Long user_id,
-                                       @PathVariable(name = "type") int type, Model model) {
-        Client client = clientService.get(user_id);
+    //############## USER ACCOUNT ##########################################
+    @RequestMapping("/client/settings/{type}")
+    public String viewPageUserSettings(@PathVariable(name = "type") float type, Model model) {
+        User user = userService.findUserByUsername(User.getUserName());
+        Client client = clientService.get(user.getId());
         model.addAttribute("client", client);
         model.addAttribute("type", type);
         return "client_account";
     }
 
-    @RequestMapping("/client/{id}/edit/{type}")
-    public ModelAndView showEditMatchPage(@PathVariable(name = "id") Long id, @PathVariable(name = "type") int type) {
+    @RequestMapping("/client/edit/{type}")
+    public ModelAndView showEditMatchPage(@PathVariable(name = "type") float type) {
         ModelAndView mav = new ModelAndView("client_edit_date");
-        User user = userService.get(id);
-        Client client = clientService.get(id);
+        User user = userService.findUserByUsername(User.getUserName());
+        Client client = clientService.get(user.getId());
         String oldPassword= new String();
         String newPassword= new String();
         mav.addObject("user", user);
@@ -183,11 +229,12 @@ public class ControllerApi {
     }
 
     @RequestMapping(value = "/client/edit_data/{id}", method = RequestMethod.POST)
-    public String editClientData(@PathVariable(name = "id") Long id, @ModelAttribute ("client") Client client){
+    public String editClientData(@PathVariable(name = "id") Long id,
+                                 @ModelAttribute ("client") Client client){
         User userToChange = userService.get(id);
         userToChange.setClient(client);
         userService.save(userToChange);
-        return "redirect:/client/settings/"+id+"/1";
+        return "redirect:/client/settings/1";
     }
 
     @RequestMapping(value = "/client/change_password/{id}", method = RequestMethod.POST)
@@ -199,20 +246,32 @@ public class ControllerApi {
         if(WebSecurityConfig.passwordEncoder().matches(oldPassword, userToChange.getPassword())) {
             userToChange.setPassword(newPassword);
             userService.save(userToChange);
-            System.out.println("new pass: " + newPassword);
-            System.out.println("old pass: " + oldPassword);
-            return "redirect:/client/settings/" + id+"/1";
+            return "redirect:/client/settings/1";
         }
         else
-            return "redirect:/client/"+id+"/edit/3";
+            return "redirect:/client/edit/3";
     }
-    //############## USER Coupon ##########################################   http://localhost:8080/user/coupons/0
-    @RequestMapping("/client/coupons/{user}/{couponId}")
-    public String viewPageUserCoupons(@PathVariable(name = "user") Long user_id,
-                                      @PathVariable(name = "couponId") Long couponId, Model model) {
-        User user = userService.get(user_id);
-        List<Coupon> couponList = couponService.listAllByUserId(user_id);
-        Coupon coupon=null;// =couponService.get(couponId);
+
+    @RequestMapping(value = "/client/withdraw", method = RequestMethod.POST)
+    public String withdrawMoneyFromClient(@RequestParam  float type){
+        User user = userService.findUserByUsername(User.getUserName());
+        float price = clientService.getAmountByIdClient(user.getId())-type;
+        System.out.println( clientService.getAmountByIdClient(user.getId())+" - "+type+" = "+price);
+        System.out.println("\n\n");
+        if(price >= 0) {
+            clientService.updateAmountOfClient(price, user.getId());
+            return "redirect:/client/settings/1";
+        }
+        else
+            return "redirect:/client/settings/4";
+    }
+
+    //############## USER Coupon ##########################################
+    @RequestMapping("/client/coupons/{couponId}")
+    public String viewPageUserCoupons(@PathVariable(name = "couponId") Long couponId, Model model) {
+        User user = userService.findUserByUsername(User.getUserName());
+        List<Coupon> couponList = couponService.listAllByUserId(user.getId());
+        Coupon coupon=null;
         if(couponId!=0) {
             List<Match> matchList = matchService.listAllByCouponId(couponId);
             List<Courses> coursesList = coursesService.listAllByCouponId(couponId);
@@ -227,18 +286,29 @@ public class ControllerApi {
         return "client_coupons";
     }
 
-    //################  ADMIN  ################################################   http://localhost:8080/admin/ALL
-    @RequestMapping("/admin/{league}")
-    public String viewHomePageAdmin(@PathVariable(name = "league") String leagues, Model model) {
+    //################  ADMIN  ################################################
+    @RequestMapping("/admin/{league}/{type}")
+    public String viewHomePageAdmin(@PathVariable(name = "league") String leagues,
+                                    @PathVariable(name = "type") String type, Model model) {
         List<Match> listMatch;
         List<Courses> listCourses;
-        if(leagues.equals("ALL")) {
-            listMatch = matchService.listAll();
-            listCourses = coursesService.listAll();
+        if(type.equals("ended")) {
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllFinishedBet();
+                listCourses = coursesService.listAllFinishedBet();
+            } else {
+                listMatch = matchService.listFinishedBetByLeague(leagues);
+                listCourses = coursesService.listFinishedBetByLeague(leagues);
+            }
         }
         else {
-            listMatch = matchService.listAllByLeague(leagues);
-            listCourses = coursesService.listAllByMatchLeague(leagues);
+            if (leagues.equals("ALL")) {
+                listMatch = matchService.listAllActualToBet();
+                listCourses = coursesService.listAllActualToBet();
+            } else {
+                listMatch = matchService.listActualToBetByLeague(leagues);
+                listCourses = coursesService.listActualToBetByLeague(leagues);
+            }
         }
         model.addAttribute("listMatch", listMatch);
         model.addAttribute("listCourses", listCourses);
@@ -265,7 +335,7 @@ public class ControllerApi {
                 new Courses("X1", course.getC1X(), "N/A"),
                 new Courses("X2", course.getC2X(), "N/A"),
                 new Courses("12", course.getC12(), "N/A")));
-        return "redirect:/admin/ALL";
+        return "redirect:/admin/ALL/actual";
     }
 
     @RequestMapping("/edit/{id}")
@@ -301,16 +371,16 @@ public class ControllerApi {
         coursesService.updateCurseValue(course.getC12(),coursesService.getByMatchIdAndType(match.getId(), "12").getId());
         matchService.updateMatch(match.getId(), match.getLeague(), match.getScore(), match.getTeam1(),
                 match.getTeam2(), match.getDate(), match.getTime());
-        return "redirect:/admin/ALL";
+        return "redirect:/admin/ALL/actual";
     }
 
     @RequestMapping("/deleteMatch/{id}")
     public String deleteMatch(@PathVariable(name = "id") int id) {
         matchService.delete(id);
-        return "redirect:/admin/ALL";
+        return "redirect:/admin/ALL/actual";
     }
 
-    //################  LOGOWANIE & REJESTRACJA  ##################################  http://localhost:8080/hello
+    //################  LOGOWANIE & REJESTRACJA  ##################################
 
     @GetMapping("/registration")
     public  String test(Model model){
@@ -325,19 +395,7 @@ public class ControllerApi {
         client.setBetAccountBalance(1000);
         User newUser = new User(user.getUsername(), user.getPassword(), "ROLE_USER", client);
         userService.save(newUser);
-        return "redirect:/user/ALL";
-    }
-
-    @GetMapping("/test1")
-    @ResponseBody
-    public  String test1(){
-        return "hello user";
-    }
-
-    @GetMapping("/test2")
-    @ResponseBody
-    public  String test2(){
-        return "hello admin";
+        return "redirect:/user/ALL/actual";
     }
 
 }

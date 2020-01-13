@@ -1,5 +1,5 @@
-drop database if exist betwebapplication
-create database betwebapplication
+drop database if exists betwebapplication;
+create database betwebapplication;
 
 
 -- phpMyAdmin SQL Dump
@@ -50,7 +50,7 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`bet_account_balance`, `date_of_birth`, `email`, `name`, `nr_apartment`, `nr_of_bank_account`, `place_od_residence`, `street`, `surname`, `user_id`) VALUES
-(1488, '1979-12-29', 'malysz@gmail.com', 'Adam', 99, '1234', 'Wisla', 'Krakowska', 'Malysz', 1),
+(1000, '1979-12-29', 'malysz@gmail.com', 'Adam', 99, '1234', 'Wisla', 'Krakowska', 'Malysz', 1),
 (1000, '1985-04-03', 'mkubica@gmail.com', 'Robert', 24, '5678', 'Krakow', 'Warszzawska', 'Kubica', 2);
 
 -- --------------------------------------------------------
@@ -74,8 +74,8 @@ CREATE TABLE `coupon` (
 --
 
 INSERT INTO `coupon` (`id`, `amount`, `date`, `possible_win`, `rate`, `state`, `id_user_id`) VALUES
-(3, 100, '2020-01-12 00:11:36.000000', 598, 5.98, 'WIN', 1),
-(4, 10, '2020-01-12 00:14:49.000000', 22.6, 2.26, 'FAIL', 1);
+(1, 100, '2020-01-12 00:11:36.000000', 598, 5.98, 'WIN', 1),
+(2, 10, '2020-01-12 00:14:49.000000', 22.6, 2.26, 'FAIL', 1);
 
 --
 -- Wyzwalacze `coupon`
@@ -122,12 +122,12 @@ CREATE TABLE `coupon_course` (
 --
 
 INSERT INTO `coupon_course` (`id`, `coupon_id`, `courses_id`) VALUES
-(6, 3, 19),
-(8, 3, 35),
-(10, 4, 23),
-(12, 3, 27),
-(13, 4, 36),
-(14, 4, 26);
+(6, 1, 19),
+(8, 1, 35),
+(10, 2, 23),
+(12, 1, 27),
+(13, 2, 36),
+(14, 2, 26);
 
 --
 -- Wyzwalacze `coupon_course`

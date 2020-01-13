@@ -17,7 +17,7 @@
         <div class="oboklogo">
             <div class="logowanie">
                 <a th:href="@{'/logout'}">LOG OUT</a></br>
-                <a th:href="@{'/client/'+${client.id}+'/ALL'}">BACK to start page</a>
+                <a th:href="@{'/client/ALL/actual'}">BACK to start page</a>
             </div>
         </div>
     </div>
@@ -33,58 +33,82 @@
 
         <table border="0" cellpadding="10" th:object="${client}">
             <tr>
+                <td></td>
                 <td class="naglowek" colspan="2">Your account</td>
             </tr>
             <tr>
+                <td></td>
                 <td>First Name:</td>
                 <td th:text="*{name}"></td>
             </tr>
             <tr>
+                <td></td>
                 <td>Second Name:</td>
                 <td th:text="*{surname}"></td>
             </tr>
             <tr>
+                <td></td>
                 <td>Date Of Birth:</td>
                 <td th:text="*{dateOfBirth}"></td>
             </tr>
             <tr>
+                <td></td>
                 <td>Place of resistance:</td>
                 <td th:text="*{placeOdResidence}"></td>
             </tr>
             <tr>
+                <td></td>
                 <td>Street:</td>
                 <td th:text="*{street}"></td>
             </tr>
             <tr>
+                <td></td>
                 <td>Number of Apartment:</td>
                 <td th:text="*{nrApartment}"></td>
             </tr>
             <tr>
+                <td></td>
                 <td>Email Address:</td>
                 <td th:text="*{email}" ></td>
             </tr>
             <tr>
+                <td></td>
                 <td>Number of Bank Account:</td>
                 <td th:text="*{nrOfBankAccount}"></td>
             </tr>
-            <tr>
-                <td>Bet Account Ballance:</td>
-                <td th:text="*{betAccountBalance}"></td>
-                <td><a th:href="@{'/client/settings/'+${client.id}+'/2'}">top up your account</a></td>
-            <tr th:if="${type == 2}">
-                <td colspan="2">If you want top up your account you must make</td>
-            </tr>
-            <tr th:if="${type == 2}">
-                <td colspan="2">a transfer to the account number below :D</td>
-            </tr>
-            <tr th:if="${type == 2}">
-                <td colspan="2">1234 56789 98765 4321</td>
-            </tr>
-            </tr>
             <tr></tr>
             <tr>
-                <td><a th:href="@{'/client/'+${client.id}+'/edit/1'}">EDIT YOUR DATA</a></td>
-                <td><a th:href="@{'/client/'+${client.id}+'/edit/2'}">CHANGE PASSWORD</a></td>
+                <td></td>
+                <td><a th:href="@{'/client/edit/1'}">EDIT YOUR DATA</a></td>
+                <td><a th:href="@{'/client/edit/2'}">CHANGE PASSWORD</a></td>
+            </tr>
+            <tr><td></td></tr>
+            <tr><td></td></tr>
+            <tr>
+                <td><a th:href="@{'/client/settings/3'}">withdraw money</a></td>
+                <td>Bet Account Ballance:</td>
+                <td th:text="*{betAccountBalance}"></td>
+                <td><a th:href="@{'/client/settings/2'}">top up your account</a></td>
+            <tr th:if="${type == 2}"><td></td><td colspan="2">If you want top up your account you must make</td></tr>
+            <tr th:if="${type == 2}"><td></td><td colspan="2">a transfer to the account number below :D</td></tr>
+            <tr th:if="${type == 2}"><td></td><td colspan="2">1234 56789 98765 4321</td></tr>
+            <tr th:if="${type == 3}">
+            <form action="#" th:action="@{'/client/withdraw'}" method="post">
+                <td>Enter amunt</td>
+                <td><input type="text" th:value="${type}"  name="type"/></td>
+                <td colspan="2"><button type="submit">Witchdraw</button> </td>
+            </form>
+            </tr>
+            <tr th:if="${type == 4}">
+                <form action="#" th:action="@{'/client/withdraw'}" method="post">
+                    <td>Enter amunt</td>
+                    <td><input type="text" th:value="${type}"  name="type"/></td>
+                    <td colspan="2"><button type="submit">Witchdraw</button> </td>
+                </form>
+            </tr>
+            <tr th:if="${type == 4}">
+                <td></td>
+                <td>Too large amount !!!</td>
             </tr>
         </table>
     </div>

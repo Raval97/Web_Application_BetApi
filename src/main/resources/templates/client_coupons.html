@@ -18,7 +18,7 @@
         <div class="oboklogo">
             <div class="logowanie">
                 <a th:href="@{'/logout'}">LOG OUT</a></br>
-                <a th:href="@{'/client/'+${user.id}+'/ALL'}">BACK to start page</a>
+                <a th:href="@{'/client/ALL/actual'}">BACK to start page</a>
             </div>
         </div>
     </div>
@@ -44,11 +44,11 @@
             <tr style="text-align: center;" th:each="coupon : ${couponList}">
                 <td th:text="${coupon.id}">ID</td>
                 <!--                    <td><a th:href="@{'/user/coupons/'+${user.id}+'/'+${coupon.id}}" th:text="${coupon.date.toLocalDate()}"></a></td>-->
-                <td><a th:href="@{'/client/coupons/'+${user.id}+'/'+${coupon.id}}" th:text="${coupon.date}"></a></td>
+                <td><a th:href="@{'/client/coupons/'+${coupon.id}}" th:text="${coupon.date}"></a></td>
                 <td th:text="${coupon.amount}">Amount</td>
                 <td th:text="${coupon.rate}">Rate</td>
                 <td th:text="${coupon.state}">State</td>
-                <td class="of"><a th:href="@{'/client/coupons/'+${user.id}+'/'+${coupon.id}}"><i class="icon-eye"></i></a></td>
+                <td class="of"><a th:href="@{'/client/coupons/'+${coupon.id}}"><i class="icon-eye"></i></a></td>
             </tr>
             </tbody>
         </table>
