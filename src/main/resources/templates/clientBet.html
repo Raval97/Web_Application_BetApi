@@ -34,14 +34,14 @@
             <tr>
                 <td class="naglowek">Menu</td>
             </tr>
-            <tr><td><a th:href="@{'/client/ALL/'+${type}+'/'+${coupon.id}}">All Leagues</a></td></tr>
-            <tr><td><a th:href="@{'/client/CL/'+${type}+'/'+${coupon.id}}">Liga Mistrzów</a></td></tr>
-            <tr><td><a th:href="@{'/client/ANG1/'+${type}+'/'+${coupon.id}}">Premier League</a></td></tr>
-            <tr><td><a th:href="@{'/client/ESP1/'+${type}+'/'+${coupon.id}}">Primera Division</a></td></tr>
-            <tr><td><a th:href="@{'/client/GER1/'+${type}+'/'+${coupon.id}}">Bundesliga</a></td></tr>
-            <tr><td><a th:href="@{'/client/ITA1/'+${type}+'/'+${coupon.id}}">Seria A</a></td></tr>
-            <tr><td><a th:href="@{'/client/FRA1/'+${type}+'/'+${coupon.id}}">Ligue 1</a></td></tr>
-            <tr><td><a th:href="@{'/client/POL1/'+${type}+'/'+${coupon.id}}">Ekstraklasa</a></td></tr>
+            <tr><td><a th:href="@{'/client/ALL/'+${type}+'/'+${coupon.id}+'/0'}">All Leagues</a></td></tr>
+            <tr><td><a th:href="@{'/client/CL/'+${type}+'/'+${coupon.id}+'/0'}">Liga Mistrzów</a></td></tr>
+            <tr><td><a th:href="@{'/client/ANG1/'+${type}+'/'+${coupon.id}+'/0'}">Premier League</a></td></tr>
+            <tr><td><a th:href="@{'/client/ESP1/'+${type}+'/'+${coupon.id}+'/0'}">Primera Division</a></td></tr>
+            <tr><td><a th:href="@{'/client/GER1/'+${type}+'/'+${coupon.id}+'/0'}">Bundesliga</a></td></tr>
+            <tr><td><a th:href="@{'/client/ITA1/'+${type}+'/'+${coupon.id}+'/0'}">Seria A</a></td></tr>
+            <tr><td><a th:href="@{'/client/FRA1/'+${type}+'/'+${coupon.id}+'/0'}">Ligue 1</a></td></tr>
+            <tr><td><a th:href="@{'/client/POL1/'+${type}+'/'+${coupon.id}+'/0'}">Ekstraklasa</a></td></tr>
         </table>
     </div>
 
@@ -206,6 +206,8 @@
                 </form>
             </tr>
         </table>
+        <h2 th:if="${alert == 1}">This match is already on the coupon<br> and you cannot bet again</h2>
+        <h2 th:if="${alert == 2}">The coupon amount exceeds your account balance,<br>reduce the amount</h2>
     </div>
     <div class="both"></div>
     <div class="footer">

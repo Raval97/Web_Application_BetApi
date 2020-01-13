@@ -46,7 +46,7 @@
         <table class="tabelamecze" cellspacing="2px" th:if="${type == 'actual'}">
             <tr>
                 <td class="naglowek" colspan="7">Matches and Courses</td>
-                <td class="naglowek" colspan="2"><a th:href="@{'/admin/'+${league}+'/ended'}">Actual</a></td>
+                <td class="naglowek" colspan="2"><a th:href="@{'/admin/'+${league}+'/ended'}">ENDED</a></td>
             </tr>
             <tr th:each="match,iter : ${listMatch}">
                 <td width="25px">

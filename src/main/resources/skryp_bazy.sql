@@ -50,7 +50,7 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`bet_account_balance`, `date_of_birth`, `email`, `name`, `nr_apartment`, `nr_of_bank_account`, `place_od_residence`, `street`, `surname`, `user_id`) VALUES
-(1488, '1979-12-29', 'malysz@gmail.com', 'Adam', 99, '1234', 'Wisla', 'Krakowska', 'Malysz', 1),
+(1000, '1979-12-29', 'malysz@gmail.com', 'Adam', 99, '1234', 'Wisla', 'Krakowska', 'Malysz', 1),
 (1000, '1985-04-03', 'mkubica@gmail.com', 'Robert', 24, '5678', 'Krakow', 'Warszzawska', 'Kubica', 2);
 
 -- --------------------------------------------------------

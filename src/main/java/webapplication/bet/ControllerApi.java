@@ -112,14 +112,15 @@ public class ControllerApi {
     public String newBet(@PathVariable(name = "user") Long user_id) {
         couponService.newCoupon(user_id);
         int couponId=couponService.getLatsCouponId();
-        return "redirect:/client/ALL/actual/"+couponId;
+        return "redirect:/client/ALL/actual/"+couponId+"/0";
     }
 
     //################## START BET USER ########################################
-    @RequestMapping("/client/{league}/{type}/{coupon}")
+    @RequestMapping("/client/{league}/{type}/{coupon}/{alert}")
     public String viewPageUserByLeagues(@PathVariable(name = "league") String leagues,
                                         @PathVariable(name = "coupon") Long coupon_id,
-                                        @PathVariable(name = "type") String type, Model model) {
+                                        @PathVariable(name = "type") String type,
+                                        @PathVariable(name = "alert") int alert, Model model) {
         User user = userService.findUserByUsername(User.getUserName());
         List<Match> listMatch;
         List<Courses> listCourses;
@@ -152,17 +153,21 @@ public class ControllerApi {
         model.addAttribute("listMatchNamed", listMatchNamed);
         model.addAttribute("listCoursesOnBet", listCoursesOnBet);
         model.addAttribute("listCouponCourse", listCouponCourse);
+        model.addAttribute("alert", alert);
         return "clientBet";
     }
 
     @RequestMapping(value="/add/{idCoupon}/{idCourse}/{league}", method = RequestMethod.POST)
     public String addBetToCoupon(@PathVariable(name = "idCoupon") Long idCoupon, @PathVariable(name = "idCourse") Long idCourse,
                                  @PathVariable(name = "league") String league) {
-        if(couponCourseService.checkIfMatchIsInCoupon(matchService.getIdByCourseId(idCourse), idCoupon))
+        if(couponCourseService.checkIfMatchIsInCoupon(matchService.getIdByCourseId(idCourse), idCoupon)) {
             couponCourseService.saveNewCouponCourse(idCoupon, idCourse);
-        else
+            return "redirect:/client/" + league + "/actual/" + idCoupon + "/0";
+        }
+        else {
             System.out.println("Mecz jest juz na kuponie i nie mozna go ponownie obstawic");
-        return "redirect:/client/"+league+"/actual/"+idCoupon;
+            return "redirect:/client/" + league + "/actual/" + idCoupon + "/1";
+        }
     }
 
     @RequestMapping(value = "/editAmount/{idCoupon}/{league}/{type}", method = RequestMethod.POST)
@@ -171,7 +176,7 @@ public class ControllerApi {
                                        @PathVariable(name = "league") String league,
                                        @PathVariable(name = "type") String type){
         couponService.updateAmount(coupon.getAmount(), idCoupon);
-        return "redirect:/client/"+league+"/"+type+'/'+idCoupon;
+        return "redirect:/client/"+league+"/"+type+'/'+idCoupon+"/0";
     }
 
     @RequestMapping("/deleteBet/{id}/{league}/{coupon}/{type}")
@@ -180,7 +185,7 @@ public class ControllerApi {
                                       @PathVariable(name = "coupon") Long coupon_id,
                                       @PathVariable(name = "type") String type) {
         couponCourseService.delete(id);
-        return "redirect:/client/"+league+"/"+type+'/'+coupon_id;
+        return "redirect:/client/"+league+"/"+type+'/'+coupon_id+"/0";
     }
 
     @RequestMapping("/confirmBet/{league}/{coupon}/{type}")
@@ -194,13 +199,13 @@ public class ControllerApi {
         }
         else {
             System.out.println("\n\nNie wystarczajaca ilosc srodkow na koncie\n\n");
-            return "redirect:/client/" + league + "/"+type+'/'+coupon_id;
+            return "redirect:/client/" + league + "/"+type+'/'+coupon_id+"/2";
         }
     }
 
     //############## USER ACCOUNT ##########################################
     @RequestMapping("/client/settings/{type}")
-    public String viewPageUserSettings(@PathVariable(name = "type") int type, Model model) {
+    public String viewPageUserSettings(@PathVariable(name = "type") float type, Model model) {
         User user = userService.findUserByUsername(User.getUserName());
         Client client = clientService.get(user.getId());
         model.addAttribute("client", client);
@@ -209,7 +214,7 @@ public class ControllerApi {
     }
 
     @RequestMapping("/client/edit/{type}")
-    public ModelAndView showEditMatchPage(@PathVariable(name = "type") int type) {
+    public ModelAndView showEditMatchPage(@PathVariable(name = "type") float type) {
         ModelAndView mav = new ModelAndView("client_edit_date");
         User user = userService.findUserByUsername(User.getUserName());
         Client client = clientService.get(user.getId());
@@ -246,6 +251,21 @@ public class ControllerApi {
         else
             return "redirect:/client/edit/3";
     }
+
+    @RequestMapping(value = "/client/withdraw", method = RequestMethod.POST)
+    public String withdrawMoneyFromClient(@RequestParam  float type){
+        User user = userService.findUserByUsername(User.getUserName());
+        float price = clientService.getAmountByIdClient(user.getId())-type;
+        System.out.println( clientService.getAmountByIdClient(user.getId())+" - "+type+" = "+price);
+        System.out.println("\n\n");
+        if(price >= 0) {
+            clientService.updateAmountOfClient(price, user.getId());
+            return "redirect:/client/settings/1";
+        }
+        else
+            return "redirect:/client/settings/4";
+    }
+
     //############## USER Coupon ##########################################
     @RequestMapping("/client/coupons/{couponId}")
     public String viewPageUserCoupons(@PathVariable(name = "couponId") Long couponId, Model model) {
@@ -375,7 +395,7 @@ public class ControllerApi {
         client.setBetAccountBalance(1000);
         User newUser = new User(user.getUsername(), user.getPassword(), "ROLE_USER", client);
         userService.save(newUser);
-        return "redirect:/user/ALL";
+        return "redirect:/user/ALL/actual";
     }
 
 }
