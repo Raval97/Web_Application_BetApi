@@ -1,9 +1,11 @@
 # Web Bet Application
 
 Technologies:
-Java: Spring Boot 
-Frontend: Thymleaf (HTML + CSS)   
-database: MySQL 
+ - Java: Spring Boot 
+ - Frontend: Thymleaf (HTML + CSS)   
+ - database: MySQL 
+ 
+ * application use WebSecurityConfigurerAdapter to session maintenance
 
 Start Page
 User can only watch a list of match and research by the league
