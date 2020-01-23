@@ -3,7 +3,7 @@ Spring Boot + Thymleaf + MySQL
 
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/startPage.PNG?raw=true)
 
-![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/logInd.PNG?raw=true)
+![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/logIn.PNG?raw=true)
 
 
 
