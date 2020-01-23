@@ -17,5 +17,5 @@ Spring Boot + Thymleaf + MySQL
 
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/clientSettings.PNG?raw=true)
 
-![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/database.PNG?raw=true)
+![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/databse.PNG?raw=true)
 
