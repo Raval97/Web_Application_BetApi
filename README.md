@@ -34,9 +34,9 @@ Client Settings:
 Client cen update jour account settings, change password and withdraw money
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/clientCoupons.PNG?raw=true)
 
-Client Coupons
-On 
-this page client can watching them coupons
+Client Coupons.
+On .
+this page client can watching them coupons.
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/clientSettings.PNG?raw=true)
 
 Diagram ERD Database
