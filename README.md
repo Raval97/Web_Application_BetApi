@@ -2,7 +2,7 @@
 
 Technologies:
  - Java: Spring Boot 
- - Frontend: Thymleaf ( + CSS)   
+ - Frontend: Thymleaf (HTML + CSS)   
  - database: MySQL 
  
  * application use WebSecurityConfigurerAdapter to session maintenance
