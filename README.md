@@ -24,11 +24,11 @@ Create Match Page
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/adminNewMatch.PNG?raw=true)
 
 Client Start Page:
- *On this page client can chosse a match and course, set account and finally bet a coupon
+On this page client can chosse a match and course, set account and finally bet a coupon
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/client.PNG?raw=true)
 
 Client Settings:
- *Client cen update jour account settings, change password and withdraw money
+Client cen update jour account settings, change password and withdraw money
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/clientCoupons.PNG?raw=true)
 
 Client Coupons
