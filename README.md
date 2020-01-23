@@ -21,7 +21,7 @@ Other functions is access after log in:
 
 Admin Page:
 
-Admin can create, edit and delete matches and them courses
+The administrator can create, edit and delete matches and their courses
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/admin.PNG?raw=true)
 
 
@@ -31,17 +31,17 @@ Create Match Page:
 
 Client Start Page:
 
-On this page client can chosse a match and course, set account and finally bet a coupon
+On this page the client can choose the courses of the matches, set the amount and finally bet on the coupon
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/client.PNG?raw=true)
 
 
 Client Settings:    
 
-Client cen update jour account settings, change password and withdraw money
+Client can update the account settings, change the password and withdraw money
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/clientCoupons.PNG?raw=true)
 
 
-Client Coupons:   On this page client can watching them coupons
+Client Coupons:   On this page client can view their coupons 
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/clientSettings.PNG?raw=true)
 
 
