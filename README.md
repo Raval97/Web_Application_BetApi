@@ -10,7 +10,6 @@ Technologies:
 
 
 Start Page:   
-
 User can only watch a list of match and research by the league
 
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/startPage.PNG?raw=true)
