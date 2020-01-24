@@ -5,7 +5,7 @@ Technologies:
  - Frontend: Thymleaf (HTML + CSS)   
  - database: MySQL 
  
- * application use WebSecurityConfigurerAdapter to session maintenance
+ * application use WebSecurityConfigurerAdapter to session maintenance and recognition of the logged in user's access type
 
 
 
@@ -20,32 +20,38 @@ Other functions is access after log in:
 
 
 Admin Page:
-
 The administrator can create, edit and delete matches and their courses
+
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/admin.PNG?raw=true)
 
 
+
 Create Match Page:
+
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/adminNewMatch.PNG?raw=true)
 
 
-Client Start Page:
 
+Client Start Page:
 On this page the client can choose the courses of the matches, set the amount and finally bet on the coupon
+
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/client.PNG?raw=true)
 
 
-Client Coupons:   
 
+Client Coupons:   
 On this page client can view their coupons
+
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/clientCoupons.PNG?raw=true)
 
-Client Settings:    
 
+Client Settings:    
 Client can update the account settings, change the password and withdraw money
+
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/clientSettings.PNG?raw=true)
 
 
 Diagram ERD :
+
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/databse.PNG?raw=true)
 
