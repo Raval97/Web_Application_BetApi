@@ -5,7 +5,7 @@ Technologies:
  - Frontend: Thymleaf (HTML + CSS)   
  - database: MySQL 
  
- (*) application use WebSecurityConfigurerAdapter to session maintenance and recognition of the logged in user's access type
+(*) application use WebSecurityConfigurerAdapter to session maintenance and recognition of the logged in user's access type
 
 
 
