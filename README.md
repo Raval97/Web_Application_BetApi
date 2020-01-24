@@ -12,6 +12,8 @@ Technologies:
 Start Page:   
 
 User can only watch a list of match and research by the league
+
+
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/startPage.PNG?raw=true)
 
 
@@ -35,13 +37,14 @@ On this page the client can choose the courses of the matches, set the amount an
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/client.PNG?raw=true)
 
 
+Client Coupons:   
+
+On this page client can view their coupons
+![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/clientCoupons.PNG?raw=true)
+
 Client Settings:    
 
 Client can update the account settings, change the password and withdraw money
-![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/clientCoupons.PNG?raw=true)
-
-
-Client Coupons:   On this page client can view their coupons 
 ![Image description](https://github.com/Raval97/Web-Application_BetApi/blob/master/screens/clientSettings.PNG?raw=true)
 
 
